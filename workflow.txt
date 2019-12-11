@@ -1,0 +1,4 @@
+1) run known architecture on some images
+2) run known architecture on X-rays
+3) run known architecture + DCN on X-rays
+4) run different architectures +DCN on x-rays
