@@ -2,3 +2,11 @@
 2) run known architecture on X-rays
 3) run known architecture + DCN on X-rays
 4) run different architectures +DCN on x-rays
+
+Tasks:
+1) save/load trained model - guide in pytorch
+2) how to load own dataset - 
+torchvision - https://www.youtube.com/watch?v=Ed4lILj82Vk&list=PLbMqOoYQ3Mxw1Sl5iAAV4SJmvnAGAhFvK&index=6
+torch.utils.data - https://pytorch.org/docs/stable/data.html
+WRITING CUSTOM DATASETS, DATALOADERS AND TRANSFORMS - https://pytorch.org/tutorials/beginner/data_loading_tutorial.html
+data loader example - https://stackoverflow.com/questions/50052295/how-do-you-load-images-into-pytorch-dataloader
