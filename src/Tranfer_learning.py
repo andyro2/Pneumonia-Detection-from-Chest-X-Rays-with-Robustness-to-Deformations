@@ -30,7 +30,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
 
     best_model_wts = copy.deepcopy(model.state_dict())
     best_acc = 0.0
-
+    epoch_loss_vec, epoch_acc_vec = [], []
     for epoch in range(num_epochs):
         print('Epoch {}/{}'.format(epoch, num_epochs - 1))
         print('-' * 10)
@@ -74,6 +74,8 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
             epoch_loss = running_loss / dataset_sizes[phase]
             epoch_acc = running_corrects.double() / dataset_sizes[phase]
 
+            epoch_loss_vec.append(epoch_loss)
+            epoch_acc_vec.append(epoch_acc)
             print('{} Loss: {:.4f} Acc: {:.4f}'.format(
                 phase, epoch_loss, epoch_acc))
 
@@ -88,6 +90,13 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
     print('Training complete in {:.0f}m {:.0f}s'.format(
         time_elapsed // 60, time_elapsed % 60))
     print('Best val Acc: {:4f}'.format(best_acc))
+
+    # plot loss and accuracy
+    f, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
+    ax1.plot(np.array(epoch_loss_vec), 'r')
+    ax1.set_title('Epoch loss')
+    ax2.plot(np.array(epoch_acc_vec), 'b')
+    ax2.set_title('Accuracy')
 
     # load best model weights
     model.load_state_dict(best_model_wts)
