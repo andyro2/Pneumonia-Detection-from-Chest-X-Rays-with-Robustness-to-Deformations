@@ -35,6 +35,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
     best_model_wts = copy.deepcopy(model.state_dict())
     best_acc = 0.0
     epoch_loss_vec, epoch_acc_vec = [], []
+    loss_vec_val , acc_vec_val = [], []
     for epoch in range(num_epochs):
         print('Epoch {}/{}'.format(epoch, num_epochs - 1))
         print('-' * 10)
@@ -78,8 +79,12 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
             epoch_loss = running_loss / dataset_sizes[phase]
             epoch_acc = running_corrects.double() / dataset_sizes[phase]
 
-            epoch_loss_vec.append(epoch_loss)
-            epoch_acc_vec.append(epoch_acc)
+            if phase == 'train':
+                epoch_loss_vec.append(epoch_loss)
+                epoch_acc_vec.append(epoch_acc)
+            if phase == 'val':
+                loss_vec_val.append(epoch_loss)
+                acc_vec_val.append(epoch_acc)
             print('{} Loss: {:.4f} Acc: {:.4f}'.format(
                 phase, epoch_loss, epoch_acc))
 
@@ -88,7 +93,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
             #     best_acc = epoch_acc
             #     best_model_wts = copy.deepcopy(model.state_dict())
 
-            if phase == 'train' and epoch_acc > best_acc:
+            if phase == 'val' and epoch_acc > best_acc:
                 best_acc = epoch_acc
                 best_model_wts = copy.deepcopy(model.state_dict())
 
@@ -101,9 +106,9 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
 
     # plot loss and accuracy
     f, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
-    ax1.plot(epoch_loss_vec, 'r')
+    ax1.plot(epoch_loss_vec, 'r',loss_vec_val, 'b')
     ax1.set_title('Epoch loss')
-    ax2.plot(epoch_acc_vec, 'b')
+    ax2.plot(epoch_acc_vec, 'r', acc_vec_val, 'b')
     ax2.set_title('Accuracy')
 
     # load best model weights
@@ -159,7 +164,7 @@ if __name__ == '__main__':
     train_dir = data_dir + 'train'
     val_dir = data_dir + 'val'
     test_dir = data_dir + 'test'
-    epochs = 5
+    epochs = 10
     batch_size = 64
 
     # data_transforms = {

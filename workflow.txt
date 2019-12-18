@@ -1,12 +1,14 @@
-1) run known architecture on some images
-2) run known architecture on X-rays
-3) run known architecture + DCN on X-rays
+1) run known architecture on some images 	- [V]
+2) run known architecture on X-rays 		- [V]
+3) run known architecture + DCN on X-rays	
 4) run different architectures +DCN on x-rays
 
 Tasks:
-1) save/load trained model - guide in pytorch
-2) how to load own dataset - 
-torchvision - https://www.youtube.com/watch?v=Ed4lILj82Vk&list=PLbMqOoYQ3Mxw1Sl5iAAV4SJmvnAGAhFvK&index=6
-torch.utils.data - https://pytorch.org/docs/stable/data.html
-WRITING CUSTOM DATASETS, DATALOADERS AND TRANSFORMS - https://pytorch.org/tutorials/beginner/data_loading_tutorial.html
-data loader example - https://stackoverflow.com/questions/50052295/how-do-you-load-images-into-pytorch-dataloader
+
+1) Re-arrange data - random grouping (by 60%-20%-20%)
+2) Plots: legend, xlabel, ylabel, grid
+3) More epochs 		- smoother plots
+4) Code maintenence 	- modularity, commenting, etc.
+5) Visualizations 	- real-time plots - optional (maybe flag)
+6) Export network 	- might be a trouble. Consult with Yair
+6) Buy GPU (lol 2broke4me)
