@@ -204,53 +204,6 @@ if __name__ == '__main__':
     # Get a batch of training data
     inputs, classes = next(iter(dataloaders['train']))
 
-<<<<<<< HEAD
-=======
-if __name__ == '__main__':
-    # To convert data from PIL to tensor
-    # data_dir = '../../chest_xray_pneumonia/'
-    data_dir = '../hymenoptera_data' # train model on generic images
-    train_dir = data_dir + 'train'
-    val_dir = data_dir + 'val'
-    test_dir = data_dir + 'test'
-    batch_size = 4
-    epochs = 20
-
-    data_transforms = {
-        'train': transforms.Compose([
-            transforms.Resize((224, 224)),
-            transforms.RandomHorizontalFlip(),
-            transforms.ToTensor(),
-            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        ]),
-        'val': transforms.Compose([
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
-            transforms.ToTensor(),
-            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        ]),
-    }
-
-    image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),
-                                              data_transforms[x])
-                      for x in ['train', 'val']}
-    dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=batch_size,
-                                                  shuffle=True, num_workers=4)
-                   for x in ['train', 'val']}
-    dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
-    class_names = image_datasets['train'].classes
-
-    # test = torchvision.datasets.ImageFolder(data_dir + test_dir, transform=transform)
-    # testset = torch.utils.data.DataLoader(test, batch_size=batch_size, shuffle=False, drop_last=True)
-
-
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    print(device)
-
-    # Get a batch of training data
-    inputs, classes = next(iter(dataloaders['train']))
-
->>>>>>> 2ae650155ad741b6bae77ca69398c037bf0fff89
     # Make a grid from batch
     out = torchvision.utils.make_grid(inputs)
 
@@ -258,7 +211,6 @@ if __name__ == '__main__':
 
 
 
-<<<<<<< HEAD
     os.environ['TORCH_HOME'] = 'models\\resnet' #setting the environment variable
     model_ft = models.resnet18(pretrained=True)
 
@@ -268,21 +220,11 @@ if __name__ == '__main__':
         param.requires_grad = False
 
 
-=======
-
-    model_ft = models.resnet18(pretrained=True)
->>>>>>> 2ae650155ad741b6bae77ca69398c037bf0fff89
     num_ftrs = model_ft.fc.in_features
     # Here the size of each output sample is set to 2.
     # Alternatively, it can be generalized to nn.Linear(num_ftrs, len(class_names)).
     model_ft.fc = nn.Linear(num_ftrs, 2)
-<<<<<<< HEAD
     model_ft = model_ft.to(device)
-=======
-
-    model_ft = model_ft.to(device)
-
->>>>>>> 2ae650155ad741b6bae77ca69398c037bf0fff89
     criterion = nn.CrossEntropyLoss()
 
     # Observe that all parameters are being optimized
@@ -295,7 +237,6 @@ if __name__ == '__main__':
     # train model and save
     model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler,
                            num_epochs=epochs)
-<<<<<<< HEAD
 
 
     #run the test function
@@ -345,12 +286,6 @@ if __name__ == '__main__':
     visualize_model(model_ft)
 
     # ## load a pretrained resnet18 model
-=======
-    # visualize model
-    visualize_model(model_ft)
-
-    ## load a pretrained resnet18 model
->>>>>>> 2ae650155ad741b6bae77ca69398c037bf0fff89
     # model_conv = torchvision.models.resnet18(pretrained=True)
     # for param in model_conv.parameters():
     #     param.requires_grad = False
@@ -371,8 +306,4 @@ if __name__ == '__main__':
     # exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
     #
     # model_conv = train_model(model_conv, criterion, optimizer_conv,
-<<<<<<< HEAD
     #                          exp_lr_scheduler, num_epochs=epochs)
-=======
-    #                          exp_lr_scheduler, num_epochs=25)
->>>>>>> 2ae650155ad741b6bae77ca69398c037bf0fff89
