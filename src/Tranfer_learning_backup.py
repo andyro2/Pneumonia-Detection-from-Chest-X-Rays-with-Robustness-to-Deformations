@@ -159,25 +159,43 @@ if __name__ == '__main__':
     train_dir = data_dir + 'train'
     val_dir = data_dir + 'val'
     test_dir = data_dir + 'test'
-    epochs = 25
+    epochs = 5
     batch_size = 64
+
+    # data_transforms = {
+    #     'train': transforms.Compose([
+    #         transforms.Resize((224, 224)),
+    #         transforms.RandomHorizontalFlip(),
+    #         transforms.ToTensor(),
+    #         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    #     ]),
+    #     'val': transforms.Compose([
+    #         transforms.Resize(256),
+    #         transforms.CenterCrop(224),
+    #         transforms.ToTensor(),
+    #         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    #     ]),
+    #     'test': transforms.Compose([
+    #         transforms.Resize(256),
+    #         transforms.CenterCrop(224),
+    #         transforms.ToTensor(),
+    #         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    #     ]),
+    # }
 
     data_transforms = {
         'train': transforms.Compose([
             transforms.Resize((224, 224)),
-            transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]),
         'val': transforms.Compose([
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
+            transforms.Resize((224, 224)),
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]),
         'test': transforms.Compose([
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
+            transforms.Resize((224, 224)),
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]),
@@ -200,7 +218,6 @@ if __name__ == '__main__':
     print(device)
 
 
-
     # Get a batch of training data
     inputs, classes = next(iter(dataloaders['train']))
 
@@ -210,21 +227,25 @@ if __name__ == '__main__':
     imshow(out, title=[class_names[x] for x in classes])
 
 
-
     os.environ['TORCH_HOME'] = 'models\\resnet' #setting the environment variable
     model_ft = models.resnet18(pretrained=True)
 
     ## fine tuning on fully connected layers
-    model_conv = torchvision.models.resnet18(pretrained=True)
-    for param in model_conv.parameters():
-        param.requires_grad = False
+    # model_conv = torchvision.models.resnet18(pretrained=True)
+    # for param in model_conv.parameters():
+    #     param.requires_grad = False
 
 
+
+    model_ft = models.resnet18(pretrained=True)
     num_ftrs = model_ft.fc.in_features
     # Here the size of each output sample is set to 2.
     # Alternatively, it can be generalized to nn.Linear(num_ftrs, len(class_names)).
     model_ft.fc = nn.Linear(num_ftrs, 2)
     model_ft = model_ft.to(device)
+
+    model_ft = model_ft.to(device)
+
     criterion = nn.CrossEntropyLoss()
 
     # Observe that all parameters are being optimized
@@ -286,6 +307,8 @@ if __name__ == '__main__':
     visualize_model(model_ft)
 
     # ## load a pretrained resnet18 model
+
+    ## load a pretrained resnet18 model
     # model_conv = torchvision.models.resnet18(pretrained=True)
     # for param in model_conv.parameters():
     #     param.requires_grad = False
@@ -307,3 +330,4 @@ if __name__ == '__main__':
     #
     # model_conv = train_model(model_conv, criterion, optimizer_conv,
     #                          exp_lr_scheduler, num_epochs=epochs)
+    #                          exp_lr_scheduler, num_epochs=25)

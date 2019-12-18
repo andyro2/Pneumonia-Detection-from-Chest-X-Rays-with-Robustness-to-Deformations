@@ -12,7 +12,14 @@ import time
 import os
 import copy
 
-
+import bokeh
+from bokeh.io import curdoc
+from bokeh.layouts import column
+from bokeh.models import ColumnDataSource
+from bokeh.plotting import figure
+from functools import partial
+from threading import Thread
+from tornado import gen
 
 
 
@@ -75,11 +82,15 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
             if phase == 'train':
                 scheduler.step()
 
-            epoch_loss = running_loss / dataset_sizes[phase]
-            epoch_acc = running_corrects.double() / dataset_sizes[phase]
+            if phase == 'train':
+                epoch_loss = running_loss / dataset_sizes[phase]
+                epoch_acc = running_corrects.double() / dataset_sizes[phase]
+            if phase == 'val':
+                epoch_loss_val = running_loss / dataset_sizes[phase]
+                epoch_acc_val = running_corrects.double() / dataset_sizes[phase]
 
-            epoch_loss_vec.append(epoch_loss)
-            epoch_acc_vec.append(epoch_acc)
+            # epoch_loss_vec.append(epoch_loss)
+            # epoch_acc_vec.append(epoch_acc)
             print('{} Loss: {:.4f} Acc: {:.4f}'.format(
                 phase, epoch_loss, epoch_acc))
 
@@ -91,6 +102,11 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
             if phase == 'train' and epoch_acc > best_acc:
                 best_acc = epoch_acc
                 best_model_wts = copy.deepcopy(model.state_dict())
+
+            new_data = {'epochs': [epoch],
+            'trainlosses': [epoch_loss],
+            'vallosses': [epoch_loss_val]}
+            doc.add_next_tick_callback(partial(update, new_data))
 
         print()
 
@@ -137,15 +153,6 @@ def visualize_model(model, num_images=6):
                     return
         model.train(mode=was_training)
 
-def test_model(model,testset):
-    dataiter = iter(testset)
-    images,labels = dataiter.next()
-    images = images.to(device)
-    labels = labels.to(device)
-    outputs = model(images)
-    _, predicted = torch.max(outputs,1)
-    c = (predicted == labels).squeeze()
-    print(sum(c)/len(c)*100)
 
 
 
@@ -159,25 +166,43 @@ if __name__ == '__main__':
     train_dir = data_dir + 'train'
     val_dir = data_dir + 'val'
     test_dir = data_dir + 'test'
-    epochs = 25
+    epochs = 5
     batch_size = 64
+
+    # data_transforms = {
+    #     'train': transforms.Compose([
+    #         transforms.Resize((224, 224)),
+    #         transforms.RandomHorizontalFlip(),
+    #         transforms.ToTensor(),
+    #         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    #     ]),
+    #     'val': transforms.Compose([
+    #         transforms.Resize(256),
+    #         transforms.CenterCrop(224),
+    #         transforms.ToTensor(),
+    #         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    #     ]),
+    #     'test': transforms.Compose([
+    #         transforms.Resize(256),
+    #         transforms.CenterCrop(224),
+    #         transforms.ToTensor(),
+    #         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    #     ]),
+    # }
 
     data_transforms = {
         'train': transforms.Compose([
             transforms.Resize((224, 224)),
-            transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]),
         'val': transforms.Compose([
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
+            transforms.Resize((224, 224)),
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]),
         'test': transforms.Compose([
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
+            transforms.Resize((224, 224)),
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]),
@@ -200,89 +225,55 @@ if __name__ == '__main__':
     print(device)
 
 
+#####################################################################################
+    source = ColumnDataSource(data={'epochs': [],
+    'trainlosses': [],
+    'vallosses': []}
+    )
 
+    # Add the plot to the current document
+    plot = figure()
+    plot.line(x= 'epochs', y ='trainlosses',
+    color ='green', alpha = 0.8, legend ='Trainloss', line_width = 2,source = source)
+    plot.line(x= 'epochs', y ='vallosses',
+    color ='red', alpha = 0.8, legend ='Valloss', line_width = 2,
+                        source = source)
+    doc = curdoc()
+    doc.add_root(plot)
+
+
+    @gen.coroutine
+    def update(new_data):
+        source.stream(new_data)
+############################################################################
     # Get a batch of training data
     inputs, classes = next(iter(dataloaders['train']))
 
-<<<<<<< HEAD
-=======
-if __name__ == '__main__':
-    # To convert data from PIL to tensor
-    # data_dir = '../../chest_xray_pneumonia/'
-    data_dir = '../hymenoptera_data' # train model on generic images
-    train_dir = data_dir + 'train'
-    val_dir = data_dir + 'val'
-    test_dir = data_dir + 'test'
-    batch_size = 4
-    epochs = 20
-
-    data_transforms = {
-        'train': transforms.Compose([
-            transforms.Resize((224, 224)),
-            transforms.RandomHorizontalFlip(),
-            transforms.ToTensor(),
-            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        ]),
-        'val': transforms.Compose([
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
-            transforms.ToTensor(),
-            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        ]),
-    }
-
-    image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),
-                                              data_transforms[x])
-                      for x in ['train', 'val']}
-    dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=batch_size,
-                                                  shuffle=True, num_workers=4)
-                   for x in ['train', 'val']}
-    dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
-    class_names = image_datasets['train'].classes
-
-    # test = torchvision.datasets.ImageFolder(data_dir + test_dir, transform=transform)
-    # testset = torch.utils.data.DataLoader(test, batch_size=batch_size, shuffle=False, drop_last=True)
-
-
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    print(device)
-
-    # Get a batch of training data
-    inputs, classes = next(iter(dataloaders['train']))
-
->>>>>>> 2ae650155ad741b6bae77ca69398c037bf0fff89
     # Make a grid from batch
     out = torchvision.utils.make_grid(inputs)
 
     imshow(out, title=[class_names[x] for x in classes])
 
 
-
-<<<<<<< HEAD
     os.environ['TORCH_HOME'] = 'models\\resnet' #setting the environment variable
     model_ft = models.resnet18(pretrained=True)
 
     ## fine tuning on fully connected layers
-    model_conv = torchvision.models.resnet18(pretrained=True)
-    for param in model_conv.parameters():
-        param.requires_grad = False
+    # model_conv = torchvision.models.resnet18(pretrained=True)
+    # for param in model_conv.parameters():
+    #     param.requires_grad = False
 
 
-=======
 
     model_ft = models.resnet18(pretrained=True)
->>>>>>> 2ae650155ad741b6bae77ca69398c037bf0fff89
     num_ftrs = model_ft.fc.in_features
     # Here the size of each output sample is set to 2.
     # Alternatively, it can be generalized to nn.Linear(num_ftrs, len(class_names)).
     model_ft.fc = nn.Linear(num_ftrs, 2)
-<<<<<<< HEAD
     model_ft = model_ft.to(device)
-=======
 
     model_ft = model_ft.to(device)
 
->>>>>>> 2ae650155ad741b6bae77ca69398c037bf0fff89
     criterion = nn.CrossEntropyLoss()
 
     # Observe that all parameters are being optimized
@@ -295,7 +286,6 @@ if __name__ == '__main__':
     # train model and save
     model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler,
                            num_epochs=epochs)
-<<<<<<< HEAD
 
 
     #run the test function
@@ -318,7 +308,8 @@ if __name__ == '__main__':
     print('FINISHED')
     print()
 
-
+    thread = Thread(target=train_model)
+    thread.start()
 
     #COPIED:
 
@@ -345,12 +336,8 @@ if __name__ == '__main__':
     visualize_model(model_ft)
 
     # ## load a pretrained resnet18 model
-=======
-    # visualize model
-    visualize_model(model_ft)
 
     ## load a pretrained resnet18 model
->>>>>>> 2ae650155ad741b6bae77ca69398c037bf0fff89
     # model_conv = torchvision.models.resnet18(pretrained=True)
     # for param in model_conv.parameters():
     #     param.requires_grad = False
@@ -371,8 +358,5 @@ if __name__ == '__main__':
     # exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
     #
     # model_conv = train_model(model_conv, criterion, optimizer_conv,
-<<<<<<< HEAD
     #                          exp_lr_scheduler, num_epochs=epochs)
-=======
     #                          exp_lr_scheduler, num_epochs=25)
->>>>>>> 2ae650155ad741b6bae77ca69398c037bf0fff89
