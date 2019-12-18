@@ -1,0 +1,160 @@
+epochs: 3
+data_dir = '../../../chest_xray_pneumonia/'
+test = 624; train = 5216; val = 16;
+Results 
+########################################################################
+batch size = 8
+Epoch 0/2
+----------
+train Loss: 0.1468 Acc: 0.9423
+val Loss: 1.6871 Acc: 0.5000
+
+Epoch 1/2
+----------
+train Loss: 0.0671 Acc: 0.9768
+val Loss: 1.4312 Acc: 0.5625
+
+Epoch 2/2
+----------
+train Loss: 0.0374 Acc: 0.9858
+val Loss: 0.9082 Acc: 0.6875
+
+Training complete in 7m 16s
+Best val Acc: 0.687500
+
+########################################################################
+batch size = 64
+Epoch 0/24
+----------
+train Loss: 0.1870 Acc: 0.9235
+val Loss: 1.2680 Acc: 0.5625
+
+Epoch 1/24
+----------
+train Loss: 0.0734 Acc: 0.9737
+val Loss: 1.5944 Acc: 0.5625
+
+Epoch 2/24
+----------
+train Loss: 0.0450 Acc: 0.9862
+val Loss: 1.1082 Acc: 0.6250
+
+Epoch 3/24
+----------
+train Loss: 0.0333 Acc: 0.9910
+val Loss: 1.4845 Acc: 0.5625
+
+Epoch 4/24
+----------
+train Loss: 0.0248 Acc: 0.9925
+val Loss: 1.4698 Acc: 0.5625
+
+Epoch 5/24
+----------
+train Loss: 0.0219 Acc: 0.9937
+val Loss: 1.3419 Acc: 0.6250
+
+Epoch 6/24
+----------
+train Loss: 0.0189 Acc: 0.9939
+val Loss: 1.3573 Acc: 0.5625
+
+Epoch 7/24
+----------
+train Loss: 0.0139 Acc: 0.9969
+val Loss: 1.3979 Acc: 0.5625
+
+Epoch 8/24
+----------
+train Loss: 0.0146 Acc: 0.9965
+val Loss: 1.4926 Acc: 0.5625
+
+Epoch 9/24
+----------
+train Loss: 0.0107 Acc: 0.9979
+val Loss: 1.5690 Acc: 0.5625
+
+Epoch 10/24
+----------
+train Loss: 0.0119 Acc: 0.9977
+val Loss: 1.6203 Acc: 0.5625
+
+Epoch 11/24
+----------
+train Loss: 0.0115 Acc: 0.9979
+val Loss: 1.3171 Acc: 0.6250
+
+Epoch 12/24
+----------
+train Loss: 0.0093 Acc: 0.9992
+val Loss: 1.7264 Acc: 0.5625
+
+Epoch 13/24
+----------
+train Loss: 0.0110 Acc: 0.9977
+val Loss: 1.7147 Acc: 0.5625
+
+Epoch 14/24
+----------
+train Loss: 0.0127 Acc: 0.9973
+val Loss: 1.5371 Acc: 0.5625
+
+Epoch 15/24
+----------
+train Loss: 0.0094 Acc: 0.9994
+val Loss: 1.5045 Acc: 0.5625
+
+Epoch 16/24
+----------
+train Loss: 0.0112 Acc: 0.9973
+val Loss: 1.4224 Acc: 0.5625
+
+Epoch 17/24
+----------
+train Loss: 0.0092 Acc: 0.9988
+val Loss: 1.6400 Acc: 0.5625
+
+Epoch 18/24
+----------
+train Loss: 0.0113 Acc: 0.9969
+val Loss: 1.7594 Acc: 0.5625
+
+Epoch 19/24
+----------
+train Loss: 0.0106 Acc: 0.9988
+val Loss: 1.4858 Acc: 0.5625
+
+Epoch 20/24
+----------
+train Loss: 0.0130 Acc: 0.9967
+val Loss: 1.4440 Acc: 0.5625
+
+Epoch 21/24
+----------
+train Loss: 0.0099 Acc: 0.9985
+val Loss: 1.5797 Acc: 0.5625
+
+Epoch 22/24
+----------
+train Loss: 0.0099 Acc: 0.9992
+val Loss: 1.3609 Acc: 0.6250
+
+Epoch 23/24
+----------
+train Loss: 0.0094 Acc: 0.9990
+val Loss: 1.5508 Acc: 0.5625
+
+Epoch 24/24
+----------
+train Loss: 0.0088 Acc: 0.9985
+val Loss: 1.6544 Acc: 0.5625
+
+Training complete in 50m 58s
+Best val Acc: 0.625000
+
+test Accuracy = 70.1923076923077  (running on validation parameters)
+FINISHED
+
+=======================================================================================
+batch size = 64
+

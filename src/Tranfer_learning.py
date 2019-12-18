@@ -12,6 +12,10 @@ import time
 import os
 import copy
 
+
+
+
+
 plt.ion()   # interactive mode
 
 def imshow(inp, title=None):
@@ -80,7 +84,11 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
                 phase, epoch_loss, epoch_acc))
 
             # deep copy the model
-            if phase == 'val' and epoch_acc > best_acc:
+            # if phase == 'val' and epoch_acc > best_acc:
+            #     best_acc = epoch_acc
+            #     best_model_wts = copy.deepcopy(model.state_dict())
+
+            if phase == 'train' and epoch_acc > best_acc:
                 best_acc = epoch_acc
                 best_model_wts = copy.deepcopy(model.state_dict())
 
@@ -93,13 +101,14 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
 
     # plot loss and accuracy
     f, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
-    ax1.plot(np.array(epoch_loss_vec), 'r')
+    ax1.plot(epoch_loss_vec, 'r')
     ax1.set_title('Epoch loss')
-    ax2.plot(np.array(epoch_acc_vec), 'b')
+    ax2.plot(epoch_acc_vec, 'b')
     ax2.set_title('Accuracy')
 
     # load best model weights
     model.load_state_dict(best_model_wts)
+
     return model
 
 def visualize_model(model, num_images=6):
@@ -128,100 +137,173 @@ def visualize_model(model, num_images=6):
                     return
         model.train(mode=was_training)
 
-
-
-# To convert data from PIL to tensor
-data_dir = '../../chest_xray_pneumonia/'
-# data_dir = '../hymenoptera_data' # train model on generic images
-train_dir = data_dir + 'train'
-val_dir = data_dir + 'val'
-test_dir = data_dir + 'test'
-batch_size = 64
-
-data_transforms = {
-    'train': transforms.Compose([
-        transforms.RandomResizedCrop(224),
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-    ]),
-    'val': transforms.Compose([
-        transforms.Resize(256),
-        transforms.CenterCrop(224),
-        transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-    ]),
-}
-
-image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),
-                                          data_transforms[x])
-                  for x in ['train', 'val']}
-dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=batch_size,
-                                              shuffle=True, num_workers=4)
-               for x in ['train', 'val']}
-dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
-class_names = image_datasets['train'].classes
-
-# test = torchvision.datasets.ImageFolder(data_dir + test_dir, transform=transform)
-# testset = torch.utils.data.DataLoader(test, batch_size=batch_size, shuffle=False, drop_last=True)
-
-
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-print(device)
-
-# Get a batch of training data
-inputs, classes = next(iter(dataloaders['train']))
-
-# Make a grid from batch
-out = torchvision.utils.make_grid(inputs)
-
-imshow(out, title=[class_names[x] for x in classes])
+def test_model(model,testset):
+    dataiter = iter(testset)
+    images,labels = dataiter.next()
+    images = images.to(device)
+    labels = labels.to(device)
+    outputs = model(images)
+    _, predicted = torch.max(outputs,1)
+    c = (predicted == labels).squeeze()
+    print(sum(c)/len(c)*100)
 
 
 
 
-model_ft = models.resnet18(pretrained=True)
-num_ftrs = model_ft.fc.in_features
-# Here the size of each output sample is set to 2.
-# Alternatively, it can be generalized to nn.Linear(num_ftrs, len(class_names)).
-model_ft.fc = nn.Linear(num_ftrs, 2)
 
-model_ft = model_ft.to(device)
+if __name__ == '__main__':
 
-criterion = nn.CrossEntropyLoss()
+    # To convert data from PIL to tensor
+    data_dir = '../../../chest_xray_pneumonia/'
+    # data_dir = '../hymenoptera_data' # train model on generic images
+    train_dir = data_dir + 'train'
+    val_dir = data_dir + 'val'
+    test_dir = data_dir + 'test'
+    epochs = 25
+    batch_size = 64
 
-# Observe that all parameters are being optimized
-optimizer_ft = optim.SGD(model_ft.parameters(), lr=0.001, momentum=0.9)
+    data_transforms = {
+        'train': transforms.Compose([
+            transforms.Resize((224, 224)),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+        'val': transforms.Compose([
+            transforms.Resize(256),
+            transforms.CenterCrop(224),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+        'test': transforms.Compose([
+            transforms.Resize(256),
+            transforms.CenterCrop(224),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+    }
 
-# Decay LR by a factor of 0.1 every 7 epochs
-exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
+    image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),
+                                              data_transforms[x])
+                      for x in ['train', 'val']}
+    dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=batch_size,
+                                                  shuffle=True)
+                   for x in ['train', 'val']}
+    dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
+    class_names = image_datasets['train'].classes
+
+    test = torchvision.datasets.ImageFolder(test_dir, transform=data_transforms['test'])
+    testset = torch.utils.data.DataLoader(test, batch_size=batch_size, shuffle=False)
 
 
-# train model and save
-model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler,
-                       num_epochs=25)
-# visualize model
-visualize_model(model_ft)
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    print(device)
 
-## load a pretrained resnet18 model
-model_conv = torchvision.models.resnet18(pretrained=True)
-for param in model_conv.parameters():
-    param.requires_grad = False
 
-# Parameters of newly constructed modules have requires_grad=True by default
-num_ftrs = model_conv.fc.in_features
-model_conv.fc = nn.Linear(num_ftrs, 2)
 
-model_conv = model_conv.to(device)
+    # Get a batch of training data
+    inputs, classes = next(iter(dataloaders['train']))
 
-criterion = nn.CrossEntropyLoss()
+    # Make a grid from batch
+    out = torchvision.utils.make_grid(inputs)
 
-# Observe that only parameters of final layer are being optimized as
-# opposed to before.
-optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.001, momentum=0.9)
+    imshow(out, title=[class_names[x] for x in classes])
 
-# Decay LR by a factor of 0.1 every 7 epochs
-exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
 
-model_conv = train_model(model_conv, criterion, optimizer_conv,
-                         exp_lr_scheduler, num_epochs=25)
+
+    os.environ['TORCH_HOME'] = 'models\\resnet' #setting the environment variable
+    model_ft = models.resnet18(pretrained=True)
+
+    ## fine tuning on fully connected layers
+    model_conv = torchvision.models.resnet18(pretrained=True)
+    for param in model_conv.parameters():
+        param.requires_grad = False
+
+
+    num_ftrs = model_ft.fc.in_features
+    # Here the size of each output sample is set to 2.
+    # Alternatively, it can be generalized to nn.Linear(num_ftrs, len(class_names)).
+    model_ft.fc = nn.Linear(num_ftrs, 2)
+    model_ft = model_ft.to(device)
+    criterion = nn.CrossEntropyLoss()
+
+    # Observe that all parameters are being optimized
+    optimizer_ft = optim.SGD(model_ft.parameters(), lr=0.001, momentum=0.9)
+
+    # Decay LR by a factor of 0.1 every 7 epochs
+    exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
+
+
+    # train model and save
+    model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler,
+                           num_epochs=epochs)
+
+
+    #run the test function
+    #test_model(model_ft,testset)
+
+
+    #COPIED FROM INDIAN GUY's GITHUB
+    correctHits = 0
+    total = 0
+    for batches in testset:
+        data, output = batches
+        data, output = data.to(device), output.to(device)
+        prediction = model_ft(data)
+        _, prediction = torch.max(prediction.data, 1)  # returns max as well as its index
+        total += output.size(0)
+        correctHits += (prediction == output).sum().item()
+
+    print('Test accuracy = ' + str((correctHits / total) * 100))
+
+    print('FINISHED')
+    print()
+
+
+
+    #COPIED:
+
+    # img_name = "1.jpeg"  # change this to the name of your image file.def predict_image(image_path, model):
+    # image = Image.open(image_path)
+    # image_tensor = transforms(image)
+    # image_tensor = image_tensor.unsqueeze(0)
+    # image_tensor = image_tensor.to(device)
+    # output = model(image_tensor)
+    # index = output.argmax().item()
+    # if index == 0:
+    #     return "Cat"
+    # elif index == 1:
+    #     return "Dog"
+    # else:
+    #     returnpredict(img_name, model)
+
+
+
+
+
+
+    # visualize model
+    visualize_model(model_ft)
+
+    # ## load a pretrained resnet18 model
+    # model_conv = torchvision.models.resnet18(pretrained=True)
+    # for param in model_conv.parameters():
+    #     param.requires_grad = False
+    #
+    # # Parameters of newly constructed modules have requires_grad=True by default
+    # num_ftrs = model_conv.fc.in_features
+    # model_conv.fc = nn.Linear(num_ftrs, 2)
+    #
+    # model_conv = model_conv.to(device)
+    #
+    # criterion = nn.CrossEntropyLoss()
+    #
+    # # Observe that only parameters of final layer are being optimized as
+    # # opposed to before.
+    # optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.001, momentum=0.9)
+    #
+    # # Decay LR by a factor of 0.1 every 7 epochs
+    # exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
+    #
+    # model_conv = train_model(model_conv, criterion, optimizer_conv,
+    #                          exp_lr_scheduler, num_epochs=epochs)
