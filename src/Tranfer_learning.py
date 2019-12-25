@@ -227,17 +227,23 @@ if __name__ == '__main__':
     #choose pretrained network
     # os.environ['TORCH_HOME'] = 'models\\densenet' #setting the environment variable
     # model_ft = models.resnet18(pretrained=True)
-    # model_ft = models.densenet121(pretrained=True)
-    model_ft = models.alexnet(pretrained=True)
+    model_ft = models.densenet121(pretrained=True)
+    # model_ft = models.alexnet(pretrained=True)
 
     ## fine tuning on fully connected layers
     # model_conv = torchvision.models.resnet18(pretrained=True)
     # for param in model_conv.parameters():
     #     param.requires_grad = False
 
-    # adjust output size
-    num_ftrs = model_ft.fc.in_features
-    model_ft.fc = nn.Linear(num_ftrs, 2)
+    # adjust output size resnet
+    # num_ftrs = model_ft.fc.in_features
+    # model_ft.fc = nn.Linear(num_ftrs, 2)
+    # # AlexNet
+    # model_ft.classifier[6] = nn.Linear(4096, 2)
+    # DenseNet
+    model_ft.classifier = nn.Linear(1024, 2)
+
+
     model_ft = model_ft.to(device)
 
     # Loss criterion
