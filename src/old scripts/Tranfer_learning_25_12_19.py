@@ -12,7 +12,14 @@ import time
 import os
 import copy
 
-
+import bokeh
+from bokeh.io import curdoc
+from bokeh.layouts import column
+from bokeh.models import ColumnDataSource
+from bokeh.plotting import figure
+from functools import partial
+from threading import Thread
+from tornado import gen
 
 
 
@@ -35,7 +42,6 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
     best_model_wts = copy.deepcopy(model.state_dict())
     best_acc = 0.0
     epoch_loss_vec, epoch_acc_vec = [], []
-    loss_vec_val , acc_vec_val = [], []
     for epoch in range(num_epochs):
         print('Epoch {}/{}'.format(epoch, num_epochs - 1))
         print('-' * 10)
@@ -76,15 +82,15 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
             if phase == 'train':
                 scheduler.step()
 
-            epoch_loss = running_loss / dataset_sizes[phase]
-            epoch_acc = running_corrects.double() / dataset_sizes[phase]
-
             if phase == 'train':
-                epoch_loss_vec.append(epoch_loss)
-                epoch_acc_vec.append(epoch_acc)
+                epoch_loss = running_loss / dataset_sizes[phase]
+                epoch_acc = running_corrects.double() / dataset_sizes[phase]
             if phase == 'val':
-                loss_vec_val.append(epoch_loss)
-                acc_vec_val.append(epoch_acc)
+                epoch_loss_val = running_loss / dataset_sizes[phase]
+                epoch_acc_val = running_corrects.double() / dataset_sizes[phase]
+
+            # epoch_loss_vec.append(epoch_loss)
+            # epoch_acc_vec.append(epoch_acc)
             print('{} Loss: {:.4f} Acc: {:.4f}'.format(
                 phase, epoch_loss, epoch_acc))
 
@@ -93,9 +99,14 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
             #     best_acc = epoch_acc
             #     best_model_wts = copy.deepcopy(model.state_dict())
 
-            if phase == 'val' and epoch_acc > best_acc:
+            if phase == 'train' and epoch_acc > best_acc:
                 best_acc = epoch_acc
                 best_model_wts = copy.deepcopy(model.state_dict())
+
+            new_data = {'epochs': [epoch],
+            'trainlosses': [epoch_loss],
+            'vallosses': [epoch_loss_val]}
+            doc.add_next_tick_callback(partial(update, new_data))
 
         print()
 
@@ -106,9 +117,9 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
 
     # plot loss and accuracy
     f, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
-    ax1.plot(epoch_loss_vec, 'r',loss_vec_val, 'b')
+    ax1.plot(epoch_loss_vec, 'r')
     ax1.set_title('Epoch loss')
-    ax2.plot(epoch_acc_vec, 'r', acc_vec_val, 'b')
+    ax2.plot(epoch_acc_vec, 'b')
     ax2.set_title('Accuracy')
 
     # load best model weights
@@ -142,15 +153,6 @@ def visualize_model(model, num_images=6):
                     return
         model.train(mode=was_training)
 
-def test_model(model,testset):
-    dataiter = iter(testset)
-    images,labels = dataiter.next()
-    images = images.to(device)
-    labels = labels.to(device)
-    outputs = model(images)
-    _, predicted = torch.max(outputs,1)
-    c = (predicted == labels).squeeze()
-    print(sum(c)/len(c)*100)
 
 
 
@@ -164,7 +166,7 @@ if __name__ == '__main__':
     train_dir = data_dir + 'train'
     val_dir = data_dir + 'val'
     test_dir = data_dir + 'test'
-    epochs = 10
+    epochs = 5
     batch_size = 64
 
     # data_transforms = {
@@ -223,6 +225,27 @@ if __name__ == '__main__':
     print(device)
 
 
+#####################################################################################
+    source = ColumnDataSource(data={'epochs': [],
+    'trainlosses': [],
+    'vallosses': []}
+    )
+
+    # Add the plot to the current document
+    plot = figure()
+    plot.line(x= 'epochs', y ='trainlosses',
+    color ='green', alpha = 0.8, legend ='Trainloss', line_width = 2,source = source)
+    plot.line(x= 'epochs', y ='vallosses',
+    color ='red', alpha = 0.8, legend ='Valloss', line_width = 2,
+                        source = source)
+    doc = curdoc()
+    doc.add_root(plot)
+
+
+    @gen.coroutine
+    def update(new_data):
+        source.stream(new_data)
+############################################################################
     # Get a batch of training data
     inputs, classes = next(iter(dataloaders['train']))
 
@@ -285,7 +308,8 @@ if __name__ == '__main__':
     print('FINISHED')
     print()
 
-
+    thread = Thread(target=train_model)
+    thread.start()
 
     #COPIED:
 
