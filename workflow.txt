@@ -1,0 +1,14 @@
+1) run known architecture on some images 	- [V]
+2) run known architecture on X-rays 		- [V]
+3) run known architecture + DCN on X-rays	
+4) run different architectures +DCN on x-rays
+
+Tasks:
+
+1) Re-arrange data - random grouping (by 60%-20%-20%)
+2) Plots: legend, xlabel, ylabel, grid
+3) More epochs 		- smoother plots
+4) Code maintenence 	- modularity, commenting, etc.
+5) Visualizations 	- real-time plots - optional (maybe flag)
+6) Export network 	- might be a trouble. Consult with Yair
+6) Buy GPU (lol 2broke4me)
