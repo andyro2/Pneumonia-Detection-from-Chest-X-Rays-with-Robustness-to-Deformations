@@ -12,3 +12,12 @@ Tasks:
 5) Visualizations 	- real-time plots - optional (maybe flag)
 6) Export network 	- might be a trouble. Consult with Yair
 6) Buy GPU (lol 2broke4me)
+
+########################################################################
+
+Mid presentation:
+1. Review the prior work article in slide 9
+2. Read article on DCN - 'towards data science'
+3. Understand mAp & mIoU
+4. COCO detection challenge & segmentation challenge
+5. 
