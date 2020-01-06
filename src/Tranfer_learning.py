@@ -214,7 +214,7 @@ if __name__ == '__main__':
     # To convert data from PIL to tensor
     data_dir = '../../../chest_xray_pneumonia/'
     # data_dir = '../hymenoptera_data' # train model on generic images
-    epochs = 1
+    epochs = 25
     batch_size = 64
 
     # get data
