@@ -20,4 +20,22 @@ Mid presentation:
 2. Read article on DCN - 'towards data science'
 3. Understand mAp & mIoU
 4. COCO detection challenge & segmentation challenge
-5. 
+
+########################################################################
+
+Past mid-presentation - 08/01/19:
+1. Kaggle RSNA  			- parse CSV and label images
+2. Kaggle Pneumonia 		- re-arrange dataset - into 60%-20%-20%
+3. CheXpert					- unzip lol, review the data for further work (not critical)
+4. Locally implement & run	- ResNet, DenseNet, AlexNet
+5. MORE GRAPHICS 			- LOSS, PROGRESS CURVE, ETC.
+6. Locally implement DCN v1
+7. Implement DCN in local networks
+8. Read articles in spare time
+
+Andy:
+2,4
+Or:
+1
+Together:
+3,4,5,6,7
