@@ -1,0 +1,140 @@
+DenseNet101
+25 epochs
+64 batch
+Kaggle Pneoumonia
+Note: Val size may affect results
+
+cuda:0
+Epoch 0/24
+----------
+train Loss: 0.2039 Acc: 0.9225
+val Loss: 0.5169 Acc: 0.5625
+
+Epoch 1/24
+----------
+train Loss: 0.0653 Acc: 0.9768
+val Loss: 0.2191 Acc: 1.0000
+
+Epoch 2/24
+----------
+train Loss: 0.0334 Acc: 0.9891
+val Loss: 0.2557 Acc: 0.8750
+
+Epoch 3/24
+----------
+train Loss: 0.0198 Acc: 0.9962
+val Loss: 0.2851 Acc: 0.8125
+
+Epoch 4/24
+----------
+train Loss: 0.0124 Acc: 0.9979
+val Loss: 0.3963 Acc: 0.8125
+
+Epoch 5/24
+----------
+train Loss: 0.0099 Acc: 0.9983
+val Loss: 0.1534 Acc: 0.9375
+
+Epoch 6/24
+----------
+train Loss: 0.0057 Acc: 0.9996
+val Loss: 0.1002 Acc: 1.0000
+
+Epoch 7/24
+----------
+train Loss: 0.0043 Acc: 0.9998
+val Loss: 0.2280 Acc: 0.8750
+
+Epoch 8/24
+----------
+train Loss: 0.0035 Acc: 1.0000
+val Loss: 0.1670 Acc: 0.8750
+
+Epoch 9/24
+----------
+train Loss: 0.0038 Acc: 1.0000
+val Loss: 0.1310 Acc: 0.8750
+
+Epoch 10/24
+----------
+train Loss: 0.0036 Acc: 1.0000
+val Loss: 0.1636 Acc: 0.8750
+
+Epoch 11/24
+----------
+train Loss: 0.0030 Acc: 0.9996
+val Loss: 0.1051 Acc: 1.0000
+
+Epoch 12/24
+----------
+train Loss: 0.0040 Acc: 0.9998
+val Loss: 0.1927 Acc: 0.8750
+
+Epoch 13/24
+----------
+train Loss: 0.0032 Acc: 1.0000
+val Loss: 0.1283 Acc: 0.8750
+
+Epoch 14/24
+----------
+train Loss: 0.0041 Acc: 0.9998
+val Loss: 0.0945 Acc: 1.0000
+
+Epoch 15/24
+----------
+train Loss: 0.0031 Acc: 1.0000
+val Loss: 0.1063 Acc: 0.9375
+
+Epoch 16/24
+----------
+train Loss: 0.0037 Acc: 1.0000
+val Loss: 0.1804 Acc: 0.8750
+
+Epoch 17/24
+----------
+train Loss: 0.0032 Acc: 1.0000
+val Loss: 0.1827 Acc: 0.8750
+
+Epoch 18/24
+----------
+train Loss: 0.0034 Acc: 1.0000
+val Loss: 0.1276 Acc: 0.9375
+
+Epoch 19/24
+----------
+train Loss: 0.0040 Acc: 0.9996
+val Loss: 0.1385 Acc: 0.8750
+
+Epoch 20/24
+----------
+train Loss: 0.0032 Acc: 1.0000
+val Loss: 0.1452 Acc: 0.8750
+
+Epoch 21/24
+----------
+train Loss: 0.0034 Acc: 0.9998
+val Loss: 0.1656 Acc: 0.8750
+
+Epoch 22/24
+----------
+train Loss: 0.0034 Acc: 1.0000
+val Loss: 0.1235 Acc: 0.9375
+
+Epoch 23/24
+----------
+train Loss: 0.0038 Acc: 1.0000
+val Loss: 0.0995 Acc: 1.0000
+
+Epoch 24/24
+----------
+train Loss: 0.0039 Acc: 1.0000
+val Loss: 0.1161 Acc: 0.9375
+
+Training complete in 60m 37s
+Best val Acc: 1.000000
+
+Test accuracy = 81.57051282051282
+FINISHED
+
+
+########################################################################
