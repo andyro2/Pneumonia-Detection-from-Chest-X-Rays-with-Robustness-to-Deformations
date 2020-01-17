@@ -1,0 +1,2 @@
+#define KAKA -20
+#define SONG "LALALALALA"

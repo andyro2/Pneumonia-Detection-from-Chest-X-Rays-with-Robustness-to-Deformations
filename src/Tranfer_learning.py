@@ -68,7 +68,11 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
                     loss = criterion(outputs, labels)
 
                     # backward + optimize only if in training phase
+<<<<<<< HEAD
                     if phase == 'train':sud
+=======
+                    if phase == 'train':
+>>>>>>> 4751cb3bf2d2ab1fc6d2aa7cbbde49518d3e08ca
                         loss.backward()
                         optimizer.step()
 
