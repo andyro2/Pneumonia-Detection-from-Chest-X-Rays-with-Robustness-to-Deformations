@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 # try:
-from dcn_mmdet.deform_conv import DeformConv as DCN # ModulatedDeformConv
+from dcn_EDVR.deform_conv import DeformConv as DCN # ModulatedDeformConv
 # except ImportError:
 #     raise ImportError('Failed to import DCN module.')
 # from .utils import load_state_dict_from_url
@@ -81,7 +81,7 @@ class DcnBlock(nn.Module):
     expansion = 1
     __constants__ = ['downsample']
 
-    def __init__(self, inplanes, planes, stride=1, downsample=None, groups=1,
+    def __init__(self, inplanes, planes, stride=1, downsample=None, groups=8,
                  base_width=64, dilation=1, norm_layer=None):
         super(DcnBlock, self).__init__()
         if norm_layer is None:
@@ -92,14 +92,12 @@ class DcnBlock(nn.Module):
             raise NotImplementedError("Dilation > 1 not supported in BasicBlock")
         # Both self.conv1 and self.downsample layers downsample the input when stride != 1
 
-        deformable_groups = 8 #DCN.get('deformable_groups', 1)
-        offset_channels = 18
-        self.conv1_offset = nn.Conv2d(planes, deformable_groups * offset_channels, kernel_size=3, stride=stride, padding=dilation, dilation=dilation)
-        self.conv1 = DCN(inplanes, planes, kernel_size=3, stride=1, padding=1, dilation=1, deformable_groups=deformable_groups,bias=False)   ## 3 kernel size
+        self.conv1_offset = nn.Conv2d(inplanes , planes , kernel_size=3, stride=stride, padding=dilation, dilation=dilation)
+        self.conv1 = DCN(inplanes, planes, kernel_size=3, stride=1, padding=1, dilation=1, deformable_groups=groups,bias=False)   ## 3 kernel size
         self.bn1 = norm_layer(planes)
         self.relu = nn.ReLU(inplace=True)
-        self.conv2_offset = nn.Conv2d(planes, deformable_groups * offset_channels, kernel_size=3, stride=stride, padding=dilation, dilation=dilation)
-        self.conv2 = DCN(planes, planes, kernel_size=3, stride=1, padding=1, dilation=1, deformable_groups=deformable_groups,bias=False)
+        self.conv2_offset = nn.Conv2d(planes, planes, kernel_size=3, stride=stride, padding=dilation, dilation=dilation)
+        self.conv2 = DCN(planes, planes, kernel_size=3, stride=1, padding=1, dilation=1, deformable_groups=groups,bias=False)
         self.bn2 = norm_layer(planes)
         self.downsample = downsample
         self.stride = stride
