@@ -1,0 +1,83 @@
+"oeway dcn" on RESNet basis
+
+
+Epoch 0/14
+----------
+train Loss: 0.4269 Acc: 0.7790
+val Loss: 0.3182 Acc: 0.8829
+
+Epoch 1/14
+----------
+train Loss: 0.2833 Acc: 0.8733
+val Loss: 0.2890 Acc: 0.8983
+
+Epoch 2/14
+----------
+train Loss: 0.2065 Acc: 0.9166
+val Loss: 1.1100 Acc: 0.5410
+
+Epoch 3/14
+----------
+train Loss: 0.1795 Acc: 0.9331
+val Loss: 0.1738 Acc: 0.9308
+
+Epoch 4/14
+----------
+train Loss: 0.1512 Acc: 0.9450
+val Loss: 0.1447 Acc: 0.9504
+
+Epoch 5/14
+----------
+train Loss: 0.1371 Acc: 0.9519
+val Loss: 0.1560 Acc: 0.9470
+
+Epoch 6/14
+----------
+train Loss: 0.1173 Acc: 0.9573
+val Loss: 0.1610 Acc: 0.9393
+
+Epoch 7/14
+----------
+train Loss: 0.0949 Acc: 0.9653
+val Loss: 0.1226 Acc: 0.9538
+
+Epoch 8/14
+----------
+train Loss: 0.0845 Acc: 0.9758
+val Loss: 0.1162 Acc: 0.9573
+
+Epoch 9/14
+----------
+train Loss: 0.0810 Acc: 0.9764
+val Loss: 0.1136 Acc: 0.9607
+
+Epoch 10/14
+----------
+train Loss: 0.0779 Acc: 0.9747
+val Loss: 0.1150 Acc: 0.9590
+
+Epoch 11/14
+----------
+train Loss: 0.0694 Acc: 0.9823
+val Loss: 0.1164 Acc: 0.9615
+
+Epoch 12/14
+----------
+train Loss: 0.0679 Acc: 0.9801
+val Loss: 0.1141 Acc: 0.9590
+
+Epoch 13/14
+----------
+train Loss: 0.0627 Acc: 0.9826
+val Loss: 0.1115 Acc: 0.9607
+
+Epoch 14/14
+----------
+train Loss: 0.0632 Acc: 0.9841
+val Loss: 0.1130 Acc: 0.9590
+
+Training complete in 32m 12s
+Best val Acc: 0.961538
+
+Test accuracy = 95.14480408858603
+FINISHED
