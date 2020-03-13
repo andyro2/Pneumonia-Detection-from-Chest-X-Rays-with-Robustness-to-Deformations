@@ -1,7 +1,10 @@
 import torch
 import torch.nn as nn
 # try:
-from dcn_EDVR.deform_conv import DeformConv as DCN # ModulatedDeformConv
+# from dcn_EDVR.deform_conv import DeformConv as DCN # ModulatedDeformConv
+from dcn_mmdet.deform_conv import DeformConvPack as DCN # ModulatedDeformConv
+
+
 # except ImportError:
 #     raise ImportError('Failed to import DCN module.')
 # from .utils import load_state_dict_from_url
@@ -92,11 +95,9 @@ class DcnBlock(nn.Module):
             raise NotImplementedError("Dilation > 1 not supported in BasicBlock")
         # Both self.conv1 and self.downsample layers downsample the input when stride != 1
 
-        self.conv1_offset = nn.Conv2d(inplanes , planes , kernel_size=3, stride=stride, padding=dilation, dilation=dilation)
         self.conv1 = DCN(inplanes, planes, kernel_size=3, stride=1, padding=1, dilation=1, deformable_groups=groups,bias=False)   ## 3 kernel size
         self.bn1 = norm_layer(planes)
         self.relu = nn.ReLU(inplace=True)
-        self.conv2_offset = nn.Conv2d(planes, planes, kernel_size=3, stride=stride, padding=dilation, dilation=dilation)
         self.conv2 = DCN(planes, planes, kernel_size=3, stride=1, padding=1, dilation=1, deformable_groups=groups,bias=False)
         self.bn2 = norm_layer(planes)
         self.downsample = downsample
@@ -105,12 +106,10 @@ class DcnBlock(nn.Module):
     def forward(self, x):
         identity = x
 
-        offset = self.conv1_offset(x)
-        out = self.conv1(x, offset)
+        out = self.conv1(x)
         out = self.bn1(out)
         out = self.relu(out)
-        offset = self.conv2_offset(x)
-        out = self.conv2(out, offset)
+        out = self.conv2(out)
         out = self.bn2(out)
 
         if self.downsample is not None:
