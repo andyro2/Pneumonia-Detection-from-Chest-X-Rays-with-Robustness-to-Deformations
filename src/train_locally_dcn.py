@@ -10,8 +10,8 @@ import  torch.optim         as optim
 import  numpy               as np
 import  matplotlib.pyplot   as plt
 
-from resnet_dcn import BasicBlock, Bottleneck, ResNet
-# from resnet_dcn_oeway import BasicBlock, Bottleneck, ResNet
+# from resnet_dcn import BasicBlock, Bottleneck, ResNet
+from resnet_dcn_oeway import BasicBlock, Bottleneck, ResNet
 # from alexnet import AlexNet
 # from densenet import DenseNet
 from    torch.optim import lr_scheduler
@@ -220,7 +220,7 @@ if __name__ == '__main__':
     # data_dir = '../../../Kaggle_Xray_pneoumonia/'
     data_dir = '../../ChestXray_kaggle/'
     # data_dir = '../hymenoptera_data' # train model on generic images
-    epochs = 15
+    epochs = 1
     batch_size = 64
 
     # get data
