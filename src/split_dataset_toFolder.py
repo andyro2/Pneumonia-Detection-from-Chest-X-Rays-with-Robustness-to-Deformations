@@ -5,7 +5,7 @@ import split_folders
 if __name__ == '__main__':
     # Split with a ratio.
     # To only split into training and validation set, set a tuple to `ratio`, i.e, `(.8, .2)`.
-    data_dir = '../../ChestXray_kaggle/data'
+    data_dir = '../../Kaggle_RSNA/data'
     split_folders.ratio(data_dir, output="output", seed=1337, ratio=(.6, .2, .2)) # default
 
 
