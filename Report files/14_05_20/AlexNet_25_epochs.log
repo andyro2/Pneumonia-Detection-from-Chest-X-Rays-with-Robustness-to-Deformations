@@ -1,0 +1,134 @@
+Connected to pydev debugger (build 183.5153.39)
+QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-a.rodan'
+process 2136: The last reference on a connection was dropped without closing the connection. This is a bug in an application. See dbus_connection_unref() documentation for details.
+Most likely, the application was supposed to call dbus_connection_close(), since this is a private connection.
+cuda:0
+Epoch 0/24
+----------
+train Loss: 0.6666 Acc: 0.7081
+val Loss: 0.6362 Acc: 0.7299
+
+Epoch 1/24
+----------
+train Loss: 0.6169 Acc: 0.7298
+val Loss: 0.6019 Acc: 0.7299
+
+Epoch 2/24
+----------
+train Loss: 0.5954 Acc: 0.7298
+val Loss: 0.5917 Acc: 0.7299
+
+Epoch 3/24
+----------
+train Loss: 0.5915 Acc: 0.7298
+val Loss: 0.5884 Acc: 0.7299
+
+Epoch 4/24
+----------
+train Loss: 0.5883 Acc: 0.7298
+val Loss: 0.5851 Acc: 0.7299
+
+Epoch 5/24
+----------
+train Loss: 0.5847 Acc: 0.7298
+val Loss: 0.5815 Acc: 0.7299
+
+Epoch 6/24
+----------
+train Loss: 0.5809 Acc: 0.7298
+val Loss: 0.5771 Acc: 0.7299
+
+Epoch 7/24
+----------
+train Loss: 0.5781 Acc: 0.7298
+val Loss: 0.5765 Acc: 0.7299
+
+Epoch 8/24
+----------
+train Loss: 0.5773 Acc: 0.7298
+val Loss: 0.5758 Acc: 0.7299
+
+Epoch 9/24
+----------
+train Loss: 0.5768 Acc: 0.7298
+val Loss: 0.5751 Acc: 0.7299
+
+Epoch 10/24
+----------
+train Loss: 0.5762 Acc: 0.7298
+val Loss: 0.5744 Acc: 0.7299
+
+Epoch 11/24
+----------
+train Loss: 0.5756 Acc: 0.7298
+val Loss: 0.5737 Acc: 0.7299
+
+Epoch 12/24
+----------
+train Loss: 0.5747 Acc: 0.7298
+val Loss: 0.5729 Acc: 0.7299
+
+Epoch 13/24
+----------
+train Loss: 0.5739 Acc: 0.7298
+val Loss: 0.5721 Acc: 0.7299
+
+Epoch 14/24
+----------
+train Loss: 0.5737 Acc: 0.7298
+val Loss: 0.5720 Acc: 0.7299
+
+Epoch 15/24
+----------
+train Loss: 0.5733 Acc: 0.7298
+val Loss: 0.5720 Acc: 0.7299
+
+Epoch 16/24
+----------
+train Loss: 0.5735 Acc: 0.7298
+val Loss: 0.5719 Acc: 0.7299
+
+Epoch 17/24
+----------
+train Loss: 0.5736 Acc: 0.7298
+val Loss: 0.5718 Acc: 0.7299
+
+Epoch 18/24
+----------
+train Loss: 0.5731 Acc: 0.7298
+val Loss: 0.5717 Acc: 0.7299
+
+Epoch 19/24
+----------
+train Loss: 0.5729 Acc: 0.7298
+val Loss: 0.5716 Acc: 0.7299
+
+Epoch 20/24
+----------
+train Loss: 0.5731 Acc: 0.7298
+val Loss: 0.5715 Acc: 0.7299
+
+Epoch 21/24
+----------
+train Loss: 0.5730 Acc: 0.7298
+val Loss: 0.5715 Acc: 0.7299
+
+Epoch 22/24
+----------
+train Loss: 0.5731 Acc: 0.7298
+val Loss: 0.5715 Acc: 0.7299
+
+Epoch 23/24
+----------
+train Loss: 0.5733 Acc: 0.7298
+val Loss: 0.5715 Acc: 0.7299
+
+Epoch 24/24
+----------
+train Loss: 0.5730 Acc: 0.7298
+val Loss: 0.5715 Acc: 0.7299
+
+Training complete in 48m 41s
+Best val Acc: 0.729915
+Test accuracy = 72.91311754684838
+Backend Qt5Agg is interactive backend. Turning interactive mode on.

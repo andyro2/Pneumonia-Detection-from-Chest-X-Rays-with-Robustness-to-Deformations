@@ -4,6 +4,10 @@ import  torchvision
 import  time
 import  os
 import  copy
+<<<<<<< HEAD
+=======
+# import pydicom
+>>>>>>> 7eb706c12aa61dee3b5eedcb7a834f1cd357d179
 import  torch.nn            as nn
 import  torch.optim         as optim
 import  numpy               as np
@@ -13,8 +17,8 @@ from matplotlib.animation import FuncAnimation
 # import panda as pd
 
 # from resnet_dcn import BasicBlock, Bottleneck, ResNet
-from resnet_dcn_oeway import BasicBlock, Bottleneck, ResNet
-# from alexnet import AlexNet
+# from resnet_dcn_oeway import BasicBlock, Bottleneck, ResNet
+from alexnet import AlexNet
 # from densenet import DenseNet
 from    torch.optim import lr_scheduler
 from    torchvision import datasets, models, transforms
@@ -108,14 +112,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
                 acc_vec_val.append(epoch_acc)
             print('{} Loss: {:.4f} Acc: {:.4f}'.format(
                 phase, epoch_loss, epoch_acc))
-            # with open(csv_data_name, 'a') as csv_file:
-            #     csv_writer = csv.DictWriter(csv_file, fieldnames= ['epoch_loss','epoch_acc','epoch_loss_val','epoch_acc_val'])
-            #     csv_writer.writeheader()
-            #     info = {
-            #         'epoch_loss'
-            #     }
-            # ani = FuncAnimation(f, animate,fargs=(epoch_loss_vec,loss_vec_val,epoch_acc_vec,acc_vec_val) ,interval=60000)
-            animate(epoch_loss_vec,loss_vec_val,epoch_acc_vec,acc_vec_val)
+
             # deep copy the model
             # if phase == 'val' and epoch_acc > best_acc:
             #     best_acc = epoch_acc
@@ -126,6 +123,21 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
                 best_model_wts = copy.deepcopy(model.state_dict())
 
         print()
+    # animate(epoch_loss_vec, loss_vec_val, epoch_acc_vec, acc_vec_val)
+
+    ax1.clear()
+    ax2.clear()
+    ax1.plot(epoch_loss_vec, 'r', loss_vec_val, 'b')
+    ax1.legend(['train', 'validation'])
+    ax1.set_title('Epoch loss')
+    ax1.grid()
+    ax2.plot(epoch_acc_vec, 'r', acc_vec_val, 'b')
+    ax2.legend(['train', 'validation'])
+    ax2.set_title('Accuracy')
+    ax2.grid()
+    plt.tight_layout()
+    plt.show()
+
 
     time_elapsed = time.time() - since
     print('Training complete in {:.0f}m {:.0f}s'.format(
@@ -232,11 +244,11 @@ if __name__ == '__main__':
 
     # To convert data from PIL to tensor
     # data_dir = '../../../Kaggle_Xray_pneoumonia/'
-    # data_dir = '../../ChestXray_kaggle/'
-    data_dir = '../../kaggle_small/'
+    data_dir = '../ChestXray_kaggle/'
+    #data_dir = '../../kaggle_small/'
     # data_dir = '../hymenoptera_data' # train model on generic images
-    epochs = 3
-    batch_size = 8
+    epochs = 25
+    batch_size = 64
 
     # get data
     dataloaders, testset, dataset_sizes, class_names = get_data(data_dir)
@@ -246,9 +258,9 @@ if __name__ == '__main__':
     print(device)
 
     #AlexNet
-    # model_ft = AlexNet(num_classes=2)
+    model_ft = AlexNet(num_classes=2)
     # ResNet-18
-    model_ft = ResNet(BasicBlock,[2,2,2,2],num_classes=2)
+    # model_ft = ResNet(BasicBlock,[2,2,2,2],num_classes=2)
     # # ResNet-50
     # model_ft = ResNet(Bottleneck, [3, 4, 6, 3], num_classes=2)
     # # DenseNet121
@@ -288,5 +300,5 @@ if __name__ == '__main__':
 
 
     # visualize model
-    visualize_model(model_ft)
+    #visualize_model(model_ft)
     print()

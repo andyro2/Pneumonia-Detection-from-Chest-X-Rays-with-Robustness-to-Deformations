@@ -1,7 +1,7 @@
 1) run known architecture on some images 	- [V]
 2) run known architecture on X-rays 		- [V]
-3) run known architecture + DCN on X-rays	
-4) run different architectures +DCN on x-rays
+3) run known architecture + DCN on X-rays	- [v] (oeway dcn runs, need to run mmdet or other)
+4) run different architectures +DCN on x-rays   -
 
 Tasks:
 
@@ -25,7 +25,7 @@ Mid presentation:
 
 ########################################################################
 
-Past mid-presentation - 08/01/19:
+Past mid-presentation - 08/01/20
 1. Kaggle RSNA  			- parse CSV and label images
 2. Kaggle Pneumonia 		- re-arrange dataset - into 60%-20%-20%
 3. CheXpert					- unzip lol, review the data for further work (not critical)
@@ -41,4 +41,18 @@ Or:
 1
 Together:
 3,4,5,6,7
->>>>>>> 4751cb3bf2d2ab1fc6d2aa7cbbde49518d3e08ca
+
+########################################################################
+
+Past mid-presentation - 14/05/20
+1. Kaggle RSNA  			- conver dcm to readable image/ find package in pycharm that reads it
+2. CheXpert				- unzip lol, review the data for further work (not critical)
+3. MORE GRAPHICS 			- LOSS, PROGRESS CURVE, ETC.
+4. Implement DCN in local networks	- [v] (oeway dcn runs, need to run mmdet or other)
+
+
+5. gather statistics: 
+	
+	
+
+
