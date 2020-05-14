@@ -5,7 +5,7 @@ import  time
 import  os
 import  copy
 
-# import pydicom
+import pydicom
 
 import  torch.nn            as nn
 import  torch.optim         as optim
@@ -17,7 +17,7 @@ from matplotlib.animation import FuncAnimation
 
 # from resnet_dcn import BasicBlock, Bottleneck, ResNet
 # from resnet_dcn_oeway import BasicBlock, Bottleneck, ResNet
-from alexnet import AlexNet
+from alexnet import DCNAlexNet as AlexNet
 # from densenet import DenseNet
 from    torch.optim import lr_scheduler
 from    torchvision import datasets, models, transforms
