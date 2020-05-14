@@ -46,12 +46,15 @@ Together:
 
 Past mid-presentation - 14/05/20
 1. Kaggle RSNA  			- conver dcm to readable image/ find package in pycharm that reads it
-2. CheXpert				- unzip lol, review the data for further work (not critical)
-3. MORE GRAPHICS 			- LOSS, PROGRESS CURVE, ETC.
-4. Implement DCN in local networks	- [v] (oeway dcn runs, need to run mmdet or other)
+2. CheXpert				- consult with yair, how to divide the data:
+	a. not all images tested for Pneumonia
+	b. -1,0,1 labels - figure out what they mean
 
-
-5. gather statistics: 
+3. AlexNet with DCN - examine output, add to EXCEL
+4. ResNet - with & without DCN - on small dataset
+5. MORE GRAPHICS 			- LOSS, PROGRESS CURVE, ETC. nice to have
+6. Implement DCN in local networks	- [v] (oeway dcn runs, need to run mmdet or other)
+7. gather statistics: excel
 	
 	
 
