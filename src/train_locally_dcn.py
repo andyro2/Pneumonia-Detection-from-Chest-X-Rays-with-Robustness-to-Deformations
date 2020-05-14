@@ -4,7 +4,6 @@ import  torchvision
 import  time
 import  os
 import  copy
-import pydicom
 import  torch.nn            as nn
 import  torch.optim         as optim
 import  numpy               as np
