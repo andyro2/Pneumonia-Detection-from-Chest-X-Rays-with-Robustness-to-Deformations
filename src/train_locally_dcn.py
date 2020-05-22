@@ -4,25 +4,22 @@ import  torchvision
 import  time
 import  os
 import  copy
-
-import pydicom
-
+import  logging
 import  torch.nn            as nn
 import  torch.optim         as optim
 import  numpy               as np
 import  matplotlib.pyplot   as plt
+
 from matplotlib.animation import FuncAnimation
 # import csv
 # import panda as pd
-
 # from resnet_dcn import BasicBlock, Bottleneck, ResNet
 # from resnet_dcn_oeway import BasicBlock, Bottleneck, ResNet
 from alexnet import DCNAlexNet as AlexNet
 # from densenet import DenseNet
-from    torch.optim import lr_scheduler
-from    torchvision import datasets, models, transforms
+from torch.optim import lr_scheduler
+from torchvision import datasets, models, transforms
 from torch.utils import data
-
 
 f, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
 
@@ -63,6 +60,8 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
     for epoch in range(num_epochs):
         print('Epoch {}/{}'.format(epoch, num_epochs - 1))
         print('-' * 10)
+        logging.info('Epoch {}/{}'.format(epoch, num_epochs - 1))
+        logging.info('-' * 10)
 
         # Each epoch has a training and validation phase
         for phase in ['train', 'val']:
@@ -111,7 +110,8 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
                 acc_vec_val.append(epoch_acc)
             print('{} Loss: {:.4f} Acc: {:.4f}'.format(
                 phase, epoch_loss, epoch_acc))
-
+            logging.info('{} Loss: {:.4f} Acc: {:.4f}'.format(
+                phase, epoch_loss, epoch_acc))
             # deep copy the model
             # if phase == 'val' and epoch_acc > best_acc:
             #     best_acc = epoch_acc
@@ -141,8 +141,10 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
     time_elapsed = time.time() - since
     print('Training complete in {:.0f}m {:.0f}s'.format(
         time_elapsed // 60, time_elapsed % 60))
+    logging.info('Training complete in {:.0f}m {:.0f}s'.format(
+        time_elapsed // 60, time_elapsed % 60))
     print('Best val Acc: {:4f}'.format(best_acc))
-
+    logging.info('Best val Acc: {:4f}'.format(best_acc))
     # load best model weights
     model.load_state_dict(best_model_wts)
 
@@ -186,6 +188,7 @@ def test_model(model_ft,testset):
         total += output.size(0)
         correctHits += (prediction == output).sum().item()
     print('Test accuracy = ' + str((correctHits / total) * 100))
+    logging.info('Test accuracy = ' + str((correctHits / total) * 100))
 
 def get_data(data_dir):
 
@@ -241,6 +244,8 @@ def get_data(data_dir):
 
 if __name__ == '__main__':
 
+
+    logging.basicConfig(filename='./log/Alexnet.log', level=logging.INFO, format='%(asctime)s:%(message)s')
     # To convert data from PIL to tensor
     # data_dir = '../../../Kaggle_Xray_pneoumonia/'
     data_dir = '../ChestXray_kaggle/'
@@ -255,6 +260,7 @@ if __name__ == '__main__':
     #choose device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(device)
+    logging.info(device)
 
     #AlexNet
     model_ft = AlexNet(num_classes=2)
