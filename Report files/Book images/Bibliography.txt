@@ -1,0 +1,16 @@
+Intro:
+https://www.import.io/post/history-of-deep-learning/
+wikipedia: Pneumonia, CNNs
+https://www.kaggle.com/c/rsna-pneumonia-detection-challenge - מידע על דלקת ריאות
+
+
+
+
+
+
+
+2.	הפתרון שלנו
+2.1.	מודל
+2.2.	דאטה
+2.3.	שלבי הפרויקט
+
