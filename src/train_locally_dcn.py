@@ -13,9 +13,10 @@ import  matplotlib.pyplot   as plt
 from matplotlib.animation import FuncAnimation
 # import csv
 # import panda as pd
+from resnet import BasicBlock, Bottleneck, ResNet
 # from resnet_dcn import BasicBlock, Bottleneck, ResNet
 # from resnet_dcn_oeway import BasicBlock, Bottleneck, ResNet
-from alexnet import DCNAlexNet as AlexNet
+# from alexnet import DCNAlexNet as AlexNet
 # from densenet import DenseNet
 from torch.optim import lr_scheduler
 from torchvision import datasets, models, transforms
@@ -245,7 +246,7 @@ def get_data(data_dir):
 if __name__ == '__main__':
 
 
-    logging.basicConfig(filename='./log/Alexnet.log', level=logging.INFO, format='%(asctime)s:%(message)s')
+    logging.basicConfig(filename='./log/ResNet.log', level=logging.INFO, format='%(asctime)s:%(message)s')
     # To convert data from PIL to tensor
     # data_dir = '../../../Kaggle_Xray_pneoumonia/'
     data_dir = '../ChestXray_kaggle/'
@@ -263,9 +264,9 @@ if __name__ == '__main__':
     logging.info(device)
 
     #AlexNet
-    model_ft = AlexNet(num_classes=2)
+    # model_ft = AlexNet(num_classes=2)
     # ResNet-18
-    # model_ft = ResNet(BasicBlock,[2,2,2,2],num_classes=2)
+    model_ft = ResNet(BasicBlock,[2,2,2,2],num_classes=2)
     # # ResNet-50
     # model_ft = ResNet(Bottleneck, [3, 4, 6, 3], num_classes=2)
     # # DenseNet121

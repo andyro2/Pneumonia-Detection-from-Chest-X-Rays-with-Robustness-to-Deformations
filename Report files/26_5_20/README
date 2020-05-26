@@ -1,0 +1,7 @@
+Network:	Vanilla ResNet
+Data: 		ChestXray_kaggle
+Epochs:		25
+
+Output:
+	Training complete in 4381m 58s
+	Best val Acc: 0.961538

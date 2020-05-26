@@ -1,3 +1,8 @@
+Network:		Vanilla AlexNet
+Data:			ChestXray_kaggle
+Epochs:			25
+PyCharm output:
+
 Connected to pydev debugger (build 183.5153.39)
 QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-a.rodan'
 process 2136: The last reference on a connection was dropped without closing the connection. This is a bug in an application. See dbus_connection_unref() documentation for details.
