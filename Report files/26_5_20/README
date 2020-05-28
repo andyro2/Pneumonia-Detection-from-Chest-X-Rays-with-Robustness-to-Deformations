@@ -2,6 +2,141 @@ Network:	Vanilla ResNet
 Data: 		ChestXray_kaggle
 Epochs:		25
 
-Output:
-	Training complete in 4381m 58s
-	Best val Acc: 0.961538
+/home/a.rodan/dockvenv/bin/python3 /opt/pycharm/helpers/pydev/pydevd.py --multiproc --qt-support=auto --client 127.0.0.1 --port 38755 --file /host/media/a.rodan/hd-23/dcn/git/Pneumonia-Detection-from-Chest-X-Rays-with-Robustness-to-Deformations/src/train_locally_dcn.py
+pydev debugger: process 1066 is connecting
+
+Connected to pydev debugger (build 183.5153.39)
+QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-a.rodan'
+process 1066: The last reference on a connection was dropped without closing the connection. This is a bug in an application. See dbus_connection_unref() documentation for details.
+Most likely, the application was supposed to call dbus_connection_close(), since this is a private connection.
+cuda:0
+Epoch 0/24
+----------
+train Loss: 0.4162 Acc: 0.8058
+val Loss: 0.3306 Acc: 0.8556
+
+Epoch 1/24
+----------
+train Loss: 0.2856 Acc: 0.8733
+val Loss: 0.2565 Acc: 0.8991
+
+Epoch 2/24
+----------
+train Loss: 0.2335 Acc: 0.9038
+val Loss: 0.3742 Acc: 0.8316
+
+Epoch 3/24
+----------
+train Loss: 0.1949 Acc: 0.9237
+val Loss: 0.2202 Acc: 0.9128
+
+Epoch 4/24
+----------
+train Loss: 0.1693 Acc: 0.9351
+val Loss: 0.2661 Acc: 0.8897
+
+Epoch 5/24
+----------
+train Loss: 0.1472 Acc: 0.9465
+val Loss: 0.2262 Acc: 0.9111
+
+Epoch 6/24
+----------
+train Loss: 0.1239 Acc: 0.9596
+val Loss: 0.2035 Acc: 0.9265
+
+Epoch 7/24
+----------
+train Loss: 0.1005 Acc: 0.9664
+val Loss: 0.1257 Acc: 0.9564
+
+Epoch 8/24
+----------
+train Loss: 0.0934 Acc: 0.9715
+val Loss: 0.1242 Acc: 0.9598
+
+Epoch 9/24
+----------
+train Loss: 0.0945 Acc: 0.9724
+val Loss: 0.1224 Acc: 0.9581
+
+Epoch 10/24
+----------
+train Loss: 0.0898 Acc: 0.9724
+val Loss: 0.1217 Acc: 0.9581
+
+Epoch 11/24
+----------
+train Loss: 0.0862 Acc: 0.9758
+val Loss: 0.1255 Acc: 0.9581
+
+Epoch 12/24
+----------
+train Loss: 0.0840 Acc: 0.9778
+val Loss: 0.1250 Acc: 0.9598
+
+Epoch 13/24
+----------
+train Loss: 0.0797 Acc: 0.9792
+val Loss: 0.1203 Acc: 0.9581
+
+Epoch 14/24
+----------
+train Loss: 0.0777 Acc: 0.9786
+val Loss: 0.1199 Acc: 0.9607
+
+Epoch 15/24
+----------
+train Loss: 0.0804 Acc: 0.9778
+val Loss: 0.1200 Acc: 0.9581
+
+Epoch 16/24
+----------
+train Loss: 0.0797 Acc: 0.9781
+val Loss: 0.1195 Acc: 0.9598
+
+Epoch 17/24
+----------
+train Loss: 0.0794 Acc: 0.9767
+val Loss: 0.1191 Acc: 0.9607
+
+Epoch 18/24
+----------
+train Loss: 0.0772 Acc: 0.9769
+val Loss: 0.1189 Acc: 0.9615
+
+Epoch 19/24
+----------
+train Loss: 0.0841 Acc: 0.9749
+val Loss: 0.1202 Acc: 0.9590
+
+Epoch 20/24
+----------
+train Loss: 0.0788 Acc: 0.9764
+val Loss: 0.1192 Acc: 0.9607
+
+Epoch 21/24
+----------
+train Loss: 0.0778 Acc: 0.9778
+val Loss: 0.1196 Acc: 0.9598
+
+Epoch 22/24
+----------
+train Loss: 0.0784 Acc: 0.9772
+val Loss: 0.1188 Acc: 0.9615
+
+Epoch 23/24
+----------
+train Loss: 0.0804 Acc: 0.9767
+val Loss: 0.1192 Acc: 0.9598
+
+Epoch 24/24
+----------
+train Loss: 0.0805 Acc: 0.9778
+val Loss: 0.1190 Acc: 0.9590
+
+
+Training complete in 4381m 58s
+Best val Acc: 0.961538
+Test accuracy = 95.65587734241909
+Backend Qt5Agg is interactive backend. Turning interactive mode on.
