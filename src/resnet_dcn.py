@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
 # try:
-# from dcn_EDVR.deform_conv import DeformConv as DCN # ModulatedDeformConv
-from dcn_mmdet.deform_conv import DeformConvPack as DCN # ModulatedDeformConv
+from dcn_EDVR.deform_conv import DeformConvPack as DCN # ModulatedDeformConv
+# from dcn_mmdet.deform_conv import DeformConvPack as DCN # ModulatedDeformConv
 
 
 # except ImportError:

@@ -11,13 +11,17 @@ import  numpy               as np
 import  matplotlib.pyplot   as plt
 
 from matplotlib.animation import FuncAnimation
+
 # import csv
 # import panda as pd
-from resnet import BasicBlock, Bottleneck, ResNet
+
+#from resnet import BasicBlock, Bottleneck, ResNet
 # from resnet_dcn import BasicBlock, Bottleneck, ResNet
 # from resnet_dcn_oeway import BasicBlock, Bottleneck, ResNet
-# from alexnet import DCNAlexNet as AlexNet
+# from alexnet import AlexNet
+from alexnet_dcn import AlexNetDCN as AlexNet
 # from densenet import DenseNet
+
 from torch.optim import lr_scheduler
 from torchvision import datasets, models, transforms
 from torch.utils import data
@@ -136,7 +140,8 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
     ax2.set_title('Accuracy')
     ax2.grid()
     plt.tight_layout()
-    plt.show()
+    # plt.show()
+    plt.savefig('./log/%s.eps' %image_name)
 
 
     time_elapsed = time.time() - since
@@ -244,15 +249,15 @@ def get_data(data_dir):
 
 
 if __name__ == '__main__':
-
-
-    logging.basicConfig(filename='./log/ResNet.log', level=logging.INFO, format='%(asctime)s:%(message)s')
+    image_name = 'test1'
+    logger_name =  'alex_net_dcn.log'
+    logging.basicConfig(filename=logger_name, level=logging.INFO, format='%(asctime)s:%(message)s')
     # To convert data from PIL to tensor
     # data_dir = '../../../Kaggle_Xray_pneoumonia/'
     data_dir = '../ChestXray_kaggle/'
     #data_dir = '../../kaggle_small/'
     # data_dir = '../hymenoptera_data' # train model on generic images
-    epochs = 25
+    epochs = 1
     batch_size = 64
 
     # get data
@@ -264,9 +269,9 @@ if __name__ == '__main__':
     logging.info(device)
 
     #AlexNet
-    # model_ft = AlexNet(num_classes=2)
+    model_ft = AlexNet(num_classes=2)
     # ResNet-18
-    model_ft = ResNet(BasicBlock,[2,2,2,2],num_classes=2)
+    # model_ft = ResNet(BasicBlock,[2,2,2,2],num_classes=2)
     # # ResNet-50
     # model_ft = ResNet(Bottleneck, [3, 4, 6, 3], num_classes=2)
     # # DenseNet121
