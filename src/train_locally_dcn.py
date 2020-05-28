@@ -9,17 +9,17 @@ import  torch.nn            as nn
 import  torch.optim         as optim
 import  numpy               as np
 import  matplotlib.pyplot   as plt
-
+import argparse
 from matplotlib.animation import FuncAnimation
 
 # import csv
 # import panda as pd
 
-#from resnet import BasicBlock, Bottleneck, ResNet
-# from resnet_dcn import BasicBlock, Bottleneck, ResNet
+from resnet import BasicBlock, Bottleneck, ResNet
+from resnet_dcn import BasicBlockDCN, BottleneckDCN, ResNetDCN
 # from resnet_dcn_oeway import BasicBlock, Bottleneck, ResNet
-# from alexnet import AlexNet
-from alexnet_dcn import AlexNetDCN as AlexNet
+from alexnet import AlexNet
+from alexnet_dcn import AlexNetDCN
 # from densenet import DenseNet
 
 from torch.optim import lr_scheduler
@@ -141,7 +141,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
     ax2.grid()
     plt.tight_layout()
     # plt.show()
-    plt.savefig('./log/%s.eps' %image_name)
+    plt.savefig('./log/%s' %image_name)
 
 
     time_elapsed = time.time() - since
@@ -249,16 +249,31 @@ def get_data(data_dir):
 
 
 if __name__ == '__main__':
-    image_name = 'test1'
-    logger_name =  'alex_net_dcn.log'
-    logging.basicConfig(filename=logger_name, level=logging.INFO, format='%(asctime)s:%(message)s')
+    parser = argparse.ArgumentParser(description='Script to run Convolutional Nural Networks combining Deformable Convolutional Network.\n Enjoy!')
+    parser.add_argument('-l', '--log', help='log file name', default="log_file")
+    parser.add_argument('-im', '--image', help='image file name', default="image")
+    parser.add_argument('-ds', '--data_set', help='path of DataSet \n DataSet is rquired to be devided into train test val folders', default="../ChestXray_kaggle/")
+    parser.add_argument('-arch','--arch', help='Network name to run from following options:\n1)AlexNet\n2)ResNet18\n3)ResNet50', default="AlexNet")
+    parser.add_argument('-dcn', '--dcn',help='Run Chosen Network with DCN',nargs='?', default=False, const=True)
+    parser.add_argument('-ep', '--epochs', help='Number of epochs to run', default=25)
+    parser.add_argument('-bs', '--batch_size', help='Number of epochs to run', default=64)
+    args = parser.parse_args()
+
+
+
+
+    image_name = args.image + '.eps'
+    logger_name = args.log
+    logging.basicConfig(filename='./log/' + logger_name + '.log', level=logging.INFO, format='%(asctime)s:%(message)s')
     # To convert data from PIL to tensor
     # data_dir = '../../../Kaggle_Xray_pneoumonia/'
-    data_dir = '../ChestXray_kaggle/'
+    # data_dir = '../ChestXray_kaggle/'
     #data_dir = '../../kaggle_small/'
     # data_dir = '../hymenoptera_data' # train model on generic images
-    epochs = 1
-    batch_size = 64
+
+    data_dir = args.data_set
+    epochs = int(args.epochs)
+    batch_size = int(args.batch_size)
 
     # get data
     dataloaders, testset, dataset_sizes, class_names = get_data(data_dir)
@@ -268,8 +283,26 @@ if __name__ == '__main__':
     print(device)
     logging.info(device)
 
+    if args.dcn:
+        if args.arch == 'AlexNet':
+            model_ft = AlexNetDCN(num_classes=2)
+        elif args.arch == 'ResNet18':
+            model_ft = ResNetDCN(BasicBlockDCN, [2, 2, 2, 2], num_classes=2)
+        elif args.arch == 'ResNet50':
+            model_ft = ResNetDCN(BottleneckDCN, [2, 2, 2, 2], num_classes=2)
+    else:
+        if args.arch == 'AlexNet':
+            model_ft = AlexNet(num_classes=2)
+        elif args.arch == 'ResNet18':
+            model_ft = ResNet(BasicBlock, [2, 2, 2, 2], num_classes=2)
+        elif args.arch == 'ResNet50':
+            model_ft = ResNet(Bottleneck, [2, 2, 2, 2], num_classes=2)
+
+
+
+
     #AlexNet
-    model_ft = AlexNet(num_classes=2)
+    # model_ft = AlexNet(num_classes=2)
     # ResNet-18
     # model_ft = ResNet(BasicBlock,[2,2,2,2],num_classes=2)
     # # ResNet-50

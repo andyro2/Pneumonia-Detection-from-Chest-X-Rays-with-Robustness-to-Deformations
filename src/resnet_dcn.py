@@ -39,7 +39,7 @@ def conv1x1(in_planes, out_planes, stride=1):
     return nn.Conv2d(in_planes, out_planes, kernel_size=1, stride=stride, bias=False)
 
 
-class BasicBlock(nn.Module):
+class BasicBlockDCN(nn.Module):
     expansion = 1
     __constants__ = ['downsample']
 
@@ -121,7 +121,7 @@ class DcnBlock(nn.Module):
         return out
 
 
-class Bottleneck(nn.Module):
+class BottleneckDCN(nn.Module):
     expansion = 4
     __constants__ = ['downsample']
 
@@ -165,7 +165,7 @@ class Bottleneck(nn.Module):
         return out
 
 
-class ResNet(nn.Module):
+class ResNetDCN(nn.Module):
 
     def __init__(self, block, layers, num_classes=1000, zero_init_residual=False,
                  groups=1, width_per_group=64, replace_stride_with_dilation=None,
