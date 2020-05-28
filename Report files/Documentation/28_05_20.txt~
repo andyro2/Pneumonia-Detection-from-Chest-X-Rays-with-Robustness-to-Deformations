@@ -1,0 +1,16 @@
+28.05.20
+Thursday
+
+1. Implemented DCN EDVR model for AlexNet,ResNet18. Can run from home easily
+
+2. Remove plot, save figure to EPS file instead:
+	fixes the Pycharm not-printing-test-results-bug. Also EPS is better
+
+3. Add argument parser - transform into proper script. Arguments:
+	log file name      	- path to log file
+	image file name    	- path to output image
+	data set directory 	- path to data set directory
+	architecture       	- what architecture to use (AlexNet,Resnet18,Resnet50) 
+	DCN			- use DCN or not (boolean)
+	epochs			- number of epochs
+
