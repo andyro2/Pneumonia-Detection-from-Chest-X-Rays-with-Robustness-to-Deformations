@@ -1,12 +1,151 @@
-import sys
-import split_folders
-
+import os
+import random
 
 if __name__ == '__main__':
-    # Split with a ratio.
-    # To only split into training and validation set, set a tuple to `ratio`, i.e, `(.8, .2)`.
-    data_dir = '../../Kaggle_RSNA/data'
-    split_folders.ratio(data_dir, output="output", seed=1337, ratio=(.6, .2, .2)) # default
+    # SET DIRECTORIES
+    # healthy_dir   = '/media/a.rodan/hd-23/dcn/KAGGLE_RSNA/data/healthy'
+    healthy_dir   = '../../../KAGGLE_RSNA/data/healthy'
+    sick_dir      = '../../../KAGGLE_RSNA/data/sick'
+    healthy_train = '../../../KAGGLE_RSNA/data/healthy_train'
+    healthy_val   = '../../../KAGGLE_RSNA/data/healthy_val'
+    healthy_test  = '../../../KAGGLE_RSNA/data/healthy_test'
+    sick_train    = '../../../KAGGLE_RSNA/data/sick_train'
+    sick_val      = '../../../KAGGLE_RSNA/data/sick_val'
+    sick_test     = '../../../KAGGLE_RSNA/data/sick_test'
+
+    # SET NUMBERS
+    list_healthy   = os.listdir(healthy_dir)
+    list_sick      = os.listdir(sick_dir)
+    number_healthy = len(list_healthy)
+    number_sick    = len(list_sick)
+
+    # 60-20-20
+    number_healthy_train = int(number_healthy * 0.6)
+    number_healthy_val   = int(number_healthy * 0.2)
+    number_healthy_test  = number_healthy - (number_healthy_train + number_healthy_val)
+    number_sick_train    = int(number_sick * 0.6)
+    number_sick_val      = int(number_sick * 0.2)
+    number_sick_test     = number_sick - (number_sick_train + number_sick_val)
+
+    # PRINT INFO
+    print('-I- Splitting data into TRAIN, VALIDATION, TEST groups')
+    print('-I- NUMBER OF HEALTHY IMAGES:            ', number_healthy)
+    print('-I- NUMBER OF HEALTHY TRAIN IMAGES:      ', number_healthy_train)
+    print('-I- NUMBER OF HEALTHY VALIDATION IMAGES: ', number_healthy_val)
+    print('-I- NUMBER OF HEALTHY TEST IMAGES:       ', number_healthy_test)
+    print('-I- NUMBER OF SICK IMAGES:               ', number_sick)
+    print('-I- NUMBER OF SICK TRAIN IMAGES:         ', number_sick_train)
+    print('-I- NUMBER OF SICK VALIDATION IMAGES:    ', number_sick_val)
+    print('-I- NUMBER OF SICK TEST IMAGES:          ', number_sick_test)
+
+    ##   SPLIT HEALTHY
+    ##   TRAIN
+    #counter = 0
+    #while counter < number_healthy_train:
+    #    random_file = random.choice(list_healthy)
+    #    if random_file == '.':
+    #        continue
+    #    if random_file == '..':
+    #        continue
+    #    counter = counter + 1
+    #    try:
+    #        os.rename(healthy_dir + '/' + random_file, healthy_train + '/' + random_file)
+    #        print('-I- RANDOM FILE', counter, 'IS:                    ', random_file)
+    #    except:
+    #        print('-E- RANDOM FILE', counter, 'FAILED TO MOVE (TRAIN):', random_file)
+#
+#
+    ##   VAL
+    #counter = 0
+    #while counter < number_healthy_val:
+    #    random_file = random.choice(list_healthy)
+    #    if random_file == '.':
+    #        continue
+    #    if random_file == '..':
+    #        continue
+    #    counter = counter + 1
+    #    try:
+    #        os.rename(healthy_dir + '/' + random_file, healthy_val + '/' + random_file)
+    #        print('-I- RANDOM FILE', counter, 'IS:                    ', random_file)
+    #    except:
+    #        print('-E- RANDOM FILE', counter, 'FAILED TO MOVE (TEST): ', random_file)
+#
+    ##   TEST
+    #counter = 0
+    #while counter < number_healthy_test:
+    #    random_file = random.choice(list_healthy)
+    #    if random_file == '.':
+    #        continue
+    #    if random_file == '..':
+    #        continue
+    #    counter = counter + 1
+    #    try:
+    #        os.rename(healthy_dir + '/' + random_file, healthy_test + '/' + random_file)
+    #        print('-I- RANDOM FILE', counter, 'IS:                    ', random_file)
+    #    except:
+    #        print('-E- RANDOM FILE', counter, 'FAILED TO MOVE (VAL):  ', random_file)
+#
+
+
+    #   SPLIT SICK
+    #   TRAIN
+    counter = 0
+    while counter < number_sick_train:
+        random_file = random.choice(list_sick)
+        if random_file == '.':
+            continue
+        if random_file == '..':
+            continue
+        counter = counter + 1
+        try:
+            os.rename(sick_dir + '/' + random_file, sick_train + '/' + random_file)
+            print('-I- RANDOM FILE', counter, 'IS:                    ', random_file)
+        except:
+            print('-E- RANDOM FILE', counter, 'FAILED TO MOVE (TRAIN):', random_file)
+
+
+    #   VAL
+    counter = 0
+    while counter < number_sick_val:
+        random_file = random.choice(list_sick)
+        if random_file == '.':
+            continue
+        if random_file == '..':
+            continue
+        counter = counter + 1
+        try:
+            os.rename(sick_dir + '/' + random_file, sick_val + '/' + random_file)
+            print('-I- RANDOM FILE', counter, 'IS:                    ', random_file)
+        except:
+            print('-E- RANDOM FILE', counter, 'FAILED TO MOVE (TEST): ', random_file)
+
+    #   TEST
+    counter = 0
+    while counter < number_sick_test:
+        random_file = random.choice(list_sick)
+        if random_file == '.':
+            continue
+        if random_file == '..':
+            continue
+        counter = counter + 1
+        try:
+            os.rename(sick_dir + '/' + random_file, sick_test + '/' + random_file)
+            print('-I- RANDOM FILE', counter, 'IS:                    ', random_file)
+        except:
+            print('-E- RANDOM FILE', counter, 'FAILED TO MOVE (VAL):  ', random_file)
+
+
+    print('-I- FINISHED')
+
+
+#import split_folders
+
+
+#if __name__ == '__main__':
+#    # Split with a ratio.
+#    # To only split into training and validation set, set a tuple to `ratio`, i.e, `(.8, .2)`.
+#    data_dir = '../../../KAGGLE_RSNA/data/'
+#    split_folders.ratio(data_dir, output="output", seed=1337, ratio=(.6, .2, .2)) # default
 
 
 
