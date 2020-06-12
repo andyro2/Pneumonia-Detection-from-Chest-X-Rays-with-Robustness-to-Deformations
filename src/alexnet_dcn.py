@@ -54,18 +54,27 @@ class AlexNet(nn.Module):
 
 class AlexNetDCN(nn.Module):
 
-    def __init__(self, num_classes=1000):
+    def __init__(self, num_classes=1000,dcn_layers=1):
         super(AlexNetDCN, self).__init__()
 
         self.conv1 = nn.Conv2d(3, 64, kernel_size=11, stride=4, padding=2)
         self.ReLU1 = nn.ReLU(inplace=True)
         self.pool1 = nn.MaxPool2d(kernel_size=3, stride=2)
-        self.conv2 = nn.Conv2d(64, 192, kernel_size=5, padding=2)
+        if (dcn_layers >=4):
+            self.conv2 = DCN(64, 192, kernel_size=3, padding=1)
+        else:
+            self.conv2 = nn.Conv2d(64, 192, kernel_size=5, padding=2)
         self.ReLU2 = nn.ReLU(inplace=True)
         self.pool2 = nn.MaxPool2d(kernel_size=3, stride=2)
-        self.conv3 = nn.Conv2d(192, 384, kernel_size=3, padding=1)
+        if (dcn_layers >=3):
+            self.conv3 = DCN(192, 384, kernel_size=3, padding=1)
+        else:
+            self.conv3 = nn.Conv2d(192, 384, kernel_size=3, padding=1)
         self.ReLU3 = nn.ReLU(inplace=True)
-        self.conv4 = nn.Conv2d(384, 256, kernel_size=3, padding=1)
+        if (dcn_layers >=2):
+            self.conv4 = DCN(384, 256, kernel_size=3, padding=1)
+        else:
+            self.conv4 = nn.Conv2d(384, 256, kernel_size=3, padding=1)
         self.ReLU4 = nn.ReLU(inplace=True)
         self.conv5 = DCN(256, 256, kernel_size=3, padding=1)
         self.ReLU5 = nn.ReLU(inplace=True)

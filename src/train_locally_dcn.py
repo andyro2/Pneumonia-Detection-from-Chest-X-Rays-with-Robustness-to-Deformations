@@ -257,6 +257,7 @@ if __name__ == '__main__':
     parser.add_argument('-dcn', '--dcn',help='Run Chosen Network with DCN',nargs='?', default=False, const=True)
     parser.add_argument('-ep', '--epochs', help='Number of epochs to run', default=25)
     parser.add_argument('-bs', '--batch_size', help='Number of epochs to run', default=64)
+    parser.add_argument('-dcn_layers', '--dcn_layers', help='Number of dcn layers in AlexNet', default=1)
     args = parser.parse_args()
 
 
@@ -287,7 +288,7 @@ if __name__ == '__main__':
     logging.info('%s architecure chosen, DCN is %s' %(args.arch,args.dcn))
     if args.dcn:
         if args.arch == 'AlexNet':
-            model_ft = AlexNetDCN(num_classes=2)
+            model_ft = AlexNetDCN(num_classes=2, dcn_layers=int(args.dcn_layers))
         elif args.arch == 'ResNet18':
             model_ft = ResNetDCN(BasicBlockDCN, [2, 2, 2, 2], num_classes=2)
         elif args.arch == 'ResNet50':
