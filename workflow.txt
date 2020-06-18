@@ -69,6 +69,17 @@ Past mid-presentation - 14/05/20
 		log file name, image file name, data set directory,
 		desired network architecture 
 
+########################################################################
+18.06.20:
+-	Change output plots to 'EMF' format if possible (EPS not supported by MS Office)
+-	Visualizations (of filters)
+-	New architecture?
+
+
+
+
+
+
 
 
 
