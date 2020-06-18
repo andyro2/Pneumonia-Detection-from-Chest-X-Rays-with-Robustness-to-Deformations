@@ -1,25 +1,41 @@
 #!/bin/bash
 
-#script= "/media/a.rodan/hd-23/dcn/git/Pneumonia-Detection-from-Chest-X-Rays-with-Robustness-to-Deformations/src/train_locally_dcn.py"
-script="./train_locally_dcn.py"
-epochs=1
+#script="/media/a.rodan/hd-23/dcn/git/Pneumonia-Detection-from-Chest-X-Rays-with-Robustness-to-Deformations/src/train_locally_dcn.py"
+
+#FUCK THIS SHIT
 python="/usr/bin/python3.6"
+script="./train_locally_dcn.py"	#RELATIVE PATHS :( (DOCKER CONSTRAINTS)
 
-echo "Running test 1: AlexNet last layer, no DCN, Kaggle Pneumonia, 25 epochs, batch size 64"
-python $script --log AlexNet_vanilla_DS1 --image AlexNet_vanilla_DS1 --epochs $epochs &
+epochs=50
+batch_size=64
+
+#KAGGLE PNEUMONIA, KAGGLE RSNA, CHEXPERT
+dataset="Kaggle_RSNA"
+
+
+echo [INFO] TEST1:	RESNET50 VANILLA	DS1
+echo [INFO] TEST2:	RESNET50 DCN		DS1
+echo [INFO] TEST3:	RESNET50 VANILLA	DS2
+echo [INFO] TEST4:	RESNET50 DCN		DS2
+
+
+echo "[INFO] Running test 1: ResNet50, DCN=FALSE, DS1, EPOCHS: $epochs, BATCH SIZE: $batch_size"
+python $script --log ResNet50_vanilla_ds1 --image ResNet50_vanilla_ds1 --arch ResNet50 --epochs $epochs  &
 wait
 
-echo "Running test 2: AlexNet last layer, with DCN, Kaggle Pneumonia, 25 epochs, batch size 64"
-python $script --log AlexNet_DCN_DS1 --image AlexNet_DCN_DS1 --dcn --epochs $epochs &
+echo "[INFO] Running test 1: ResNet50, DCN=TRUE, DS1, EPOCHS: $epochs, BATCH SIZE: $batch_size"
+python $script --dcn --log ResNet50_dcn_ds1 --image ResNet50_dcn_ds1 --arch ResNet50 --epochs $epochs  &
 wait
 
-echo "Running test 3: ResNet18, no DCN, Kaggle Pneumonia, 25 epochs, batch size 64"
-python $script --log ResNet18_vanilla_DS1 --image ResNet18_vanilla_DS1 --epochs $epochs &
+echo "[INFO] Running test 1: ResNet50, DCN=FALSE, DS2, EPOCHS: $epochs, BATCH SIZE: $batch_size"
+python $script --log ResNet50_vanilla_ds2 --image ResNet50_vanilla_ds2 --arch ResNet50 --epochs $epochs --data_set '../../../KAGGLE_RSNA/data/' &
 wait
 
-echo "Running test 1: ResNet18, DCN, Kaggle Pneumonia, 25 epochs, batch size 64"
-python $script --log ResNet18_DCN_DS1 --image ResNet18_DCN_DS1 --epochs $epochs &
+echo "[INFO] Running test 1: ResNet50, DCN=TRUE, DS2, EPOCHS: $epochs, BATCH SIZE: $batch_size"
+python $script --dcn --log ResNet50_dcn_ds2 --image ResNet50_dcn_ds2 --arch ResNet50 --epochs $epochs --data_set '../../../KAGGLE_RSNA/data/' &
 wait
 
-echo "Script finished successfully"
+echo "[INFO] Script finished successfully"
+
+
 
