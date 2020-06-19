@@ -3,22 +3,23 @@ from __future__ import absolute_import, division
 import torch
 import torch.nn.functional as F
 import torch.nn as nn
-from torch_deform_conv.layers import ConvOffset2D
+from .layers import ConvOffset2D
+import  matplotlib.pyplot   as plt
 
 class ConvNet(nn.Module):
     def __init__(self):
         super(ConvNet, self).__init__()
 
         # conv11
-        self.conv11 = nn.Conv2d(1, 32, 3, padding=1)
+        self.conv11 = nn.Conv2d(3, 32, 3, padding=1,stride=3)
         self.bn11 = nn.BatchNorm2d(32)
 
         # conv12
-        self.conv12 = nn.Conv2d(32, 64, 3, padding=1, stride=2)
+        self.conv12 = nn.Conv2d(32, 64, 3, padding=1,stride=3)
         self.bn12 = nn.BatchNorm2d(64)
 
         # conv21
-        self.conv21 = nn.Conv2d(64, 128, 3, padding= 1)
+        self.conv21 = nn.Conv2d(64, 128, 3, padding= 1,stride=3)
         self.bn21 = nn.BatchNorm2d(128)
 
         # conv22
@@ -26,10 +27,14 @@ class ConvNet(nn.Module):
         self.bn22 = nn.BatchNorm2d(128)
 
         # out
-        self.fc = nn.Linear(128, 10)
+        self.fc = nn.Linear(128, 2)
 
     def forward(self, x):
         x = F.relu(self.conv11(x))
+        # x_np = x.cpu().detach().numpy()
+        # print(offset_np.shape)
+        # plt.imshow(x_np[0, 0, :, :])
+        # plt.show()
         x = self.bn11(x)
 
         x = F.relu(self.conv12(x))
@@ -51,17 +56,17 @@ class DeformConvNet(nn.Module):
         super(DeformConvNet, self).__init__()
         
         # conv11
-        self.conv11 = nn.Conv2d(1, 32, 3, padding=1)
+        self.conv11 = nn.Conv2d(3, 32, 3, padding=1,stride=3)
         self.bn11 = nn.BatchNorm2d(32)
 
         # conv12
         self.offset12 = ConvOffset2D(32)
-        self.conv12 = nn.Conv2d(32, 64, 3, padding=1, stride=2)
+        self.conv12 = nn.Conv2d(32, 64, 3, padding=1,stride=3)
         self.bn12 = nn.BatchNorm2d(64)
 
         # conv21
         self.offset21 = ConvOffset2D(64)
-        self.conv21 = nn.Conv2d(64, 128, 3, padding= 1)
+        self.conv21 = nn.Conv2d(64, 128, 3, padding= 1,stride=3)
         self.bn21 = nn.BatchNorm2d(128)
 
         # conv22
@@ -70,7 +75,7 @@ class DeformConvNet(nn.Module):
         self.bn22 = nn.BatchNorm2d(128)
 
         # out
-        self.fc = nn.Linear(128, 10)
+        self.fc = nn.Linear(128, 2)
 
     def forward(self, x):
         x = F.relu(self.conv11(x))

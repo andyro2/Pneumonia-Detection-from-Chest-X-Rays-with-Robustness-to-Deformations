@@ -18,6 +18,7 @@ from matplotlib.animation import FuncAnimation
 from resnet import BasicBlock, Bottleneck, ResNet
 from resnet_dcn import BasicBlockDCN, BottleneckDCN, ResNetDCN
 # from resnet_dcn_oeway import BasicBlock, Bottleneck, ResNet
+from dcn_oeway.torch_deform_conv.cnn import ConvNet, DeformConvNet
 from alexnet import AlexNet
 from alexnet_dcn import AlexNetDCN
 # from densenet import DenseNet
@@ -27,6 +28,7 @@ from torchvision import datasets, models, transforms
 from torch.utils import data
 
 f, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
+current_im = []
 
 def imshow (inp, title=None):
     inp  = inp.numpy().transpose((1,2,0))
@@ -253,7 +255,7 @@ if __name__ == '__main__':
     parser.add_argument('-l', '--log', help='log file name', default="log_file")
     parser.add_argument('-im', '--image', help='image file name', default="image")
     parser.add_argument('-ds', '--data_set', help='path of DataSet \n DataSet is rquired to be devided into train test val folders', default="../ChestXray_kaggle/")
-    parser.add_argument('-arch','--arch', help='Network name to run from following options:\n1)AlexNet\n2)ResNet18\n3)ResNet50', required=True)
+    parser.add_argument('-arch','--arch', help='Network name to run from following options:\n1)alexnet\n2)resnet18\n3)resnet50\n4)simple_cnn', required=True)
     parser.add_argument('-dcn', '--dcn',help='Run Chosen Network with DCN',nargs='?', default=False, const=True)
     parser.add_argument('-ep', '--epochs', help='Number of epochs to run', default=25)
     parser.add_argument('-bs', '--batch_size', help='Number of epochs to run', default=64)
@@ -263,7 +265,7 @@ if __name__ == '__main__':
 
 
 
-    image_name = args.image + '.eps'
+    image_name = args.image + '.emf'
     logger_name = args.log
     logging.basicConfig(filename='./log/' + logger_name + '.log', level=logging.INFO, format='%(asctime)s:%(message)s')
     # To convert data from PIL to tensor
@@ -287,19 +289,23 @@ if __name__ == '__main__':
     print('%s architecure chosen, DCN is %s' %(args.arch,args.dcn))
     logging.info('%s architecure chosen, DCN is %s' %(args.arch,args.dcn))
     if args.dcn:
-        if args.arch == 'AlexNet':
+        if args.arch == 'alexnet':
             model_ft = AlexNetDCN(num_classes=2, dcn_layers=int(args.dcn_layers))
-        elif args.arch == 'ResNet18':
+        elif args.arch == 'resnet18':
             model_ft = ResNetDCN(BasicBlockDCN, [2, 2, 2, 2], num_classes=2)
-        elif args.arch == 'ResNet50':
+        elif args.arch == 'resnet50':
             model_ft = ResNetDCN(BottleneckDCN, [3, 4, 6, 3], num_classes=2)
+        elif args.arch == 'simple_cnn':
+            model_ft = DeformConvNet()
     else:
-        if args.arch == 'AlexNet':
+        if args.arch == 'alexnet':
             model_ft = AlexNet(num_classes=2)
-        elif args.arch == 'ResNet18':
+        elif args.arch == 'resnet18':
             model_ft = ResNet(BasicBlock, [2, 2, 2, 2], num_classes=2)
-        elif args.arch == 'ResNet50':
+        elif args.arch == 'resnet50':
             model_ft = ResNet(Bottleneck, [3, 4, 6, 3], num_classes=2)
+        elif args.arch == 'simple_cnn':
+            model_ft = ConvNet()
 
 
 

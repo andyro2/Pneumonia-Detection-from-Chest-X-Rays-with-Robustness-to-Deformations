@@ -6,11 +6,16 @@
 python="/usr/bin/python3.6"
 script="./train_locally_dcn.py"	#RELATIVE PATHS :( (DOCKER CONSTRAINTS)
 
-epochs=50
+epochs=25
 batch_size=64
 
 #KAGGLE PNEUMONIA, KAGGLE RSNA, CHEXPERT
-dataset="Kaggle_RSNA"
+#dataset="Kaggle_RSNA" #1
+#dataset='../../../KAGGLE_RSNA/data/' #2
+dataset='../../kaggle_small/' # small
+
+
+
 
 
 echo [INFO] TEST1:	RESNET50 VANILLA	DS1
@@ -38,4 +43,6 @@ wait
 echo "[INFO] Script finished successfully"
 
 
-
+echo "[INFO] Running test 1: ResNet50, DCN=TRUE, DS2, EPOCHS: $epochs, BATCH SIZE: $batch_size"
+python $script --dcn --log simple_cnn_shortDS --image simple_cnn_shortDS --arch simple_cnn --epochs $epochs --data_set '../../kaggle_small/' &
+wait

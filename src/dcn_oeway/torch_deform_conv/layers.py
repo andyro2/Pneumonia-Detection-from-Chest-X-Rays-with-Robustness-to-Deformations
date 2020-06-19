@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 import numpy as np
 from .deform_conv import th_batch_map_offsets, th_generate_grid
-
+import  matplotlib.pyplot   as plt
 
 class ConvOffset2D(nn.Conv2d):
     """ConvOffset2D
@@ -50,7 +50,22 @@ class ConvOffset2D(nn.Conv2d):
         x_offset = self._to_b_c_h_w(x_offset, x_shape)
 
         #28.05.20: PRINT OFFSETS TO STDOUT
-        print(x_offset)
+        # offset_np = x_offset.cpu().detach().numpy()
+        # print(offset_np.shape)
+        # plt.imshow(offset_np[0,0,:,:])
+
+        # ax1.clear()
+        # ax2.clear()
+        # ax1.plot(epoch_loss_vec, 'r', loss_vec_val, 'b')
+        # ax1.legend(['train', 'validation'])
+        # ax1.set_title('Epoch loss')
+        # ax1.grid()
+        # ax2.plot(epoch_acc_vec, 'r', acc_vec_val, 'b')
+        # ax2.legend(['train', 'validation'])
+        # ax2.set_title('Accuracy')
+        # ax2.grid()
+        # plt.tight_layout()
+        # plt.show()
 
         return x_offset
 
