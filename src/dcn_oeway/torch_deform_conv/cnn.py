@@ -31,12 +31,13 @@ class ConvNet(nn.Module):
 
     def forward(self, x):
         x = F.relu(self.conv11(x))
-        # x_np = x.cpu().detach().numpy()
-        # print(offset_np.shape)
-        # plt.imshow(x_np[0, 0, :, :])
-        # plt.show()
-        x = self.bn11(x)
+        x_np = x.cpu().detach().numpy()
+        #print(x_np.shape)
+        plt.imshow(x_np[0, 0, :, :])
+        plt.show()
 
+
+        x = self.bn11(x)
         x = F.relu(self.conv12(x))
         x = self.bn12(x)
 
@@ -54,7 +55,8 @@ class ConvNet(nn.Module):
 class DeformConvNet(nn.Module):
     def __init__(self):
         super(DeformConvNet, self).__init__()
-        
+
+
         # conv11
         self.conv11 = nn.Conv2d(3, 32, 3, padding=1,stride=3)
         self.bn11 = nn.BatchNorm2d(32)
@@ -79,8 +81,15 @@ class DeformConvNet(nn.Module):
 
     def forward(self, x):
         x = F.relu(self.conv11(x))
+
+        #   PLOT
+        x_np = x.cpu().detach().numpy()
+        plt.imshow(x_np[0, 0, :, :])
+        plt.show()
+
         x = self.bn11(x)
-        
+
+
         x = self.offset12(x)
         x = F.relu(self.conv12(x))
         x = self.bn12(x)

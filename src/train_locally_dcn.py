@@ -12,9 +12,6 @@ import  matplotlib.pyplot   as plt
 import argparse
 from matplotlib.animation import FuncAnimation
 
-# import csv
-# import panda as pd
-
 from resnet import BasicBlock, Bottleneck, ResNet
 from resnet_dcn import BasicBlockDCN, BottleneckDCN, ResNetDCN
 # from resnet_dcn_oeway import BasicBlock, Bottleneck, ResNet
@@ -41,7 +38,6 @@ def imshow (inp, title=None):
     if title is not None:
         plt.title(title)
     plt.pause(0.001)
-
 
 def animate(epoch_loss_vec,loss_vec_val,epoch_acc_vec,acc_vec_val):
     ax1.clear()
@@ -265,13 +261,13 @@ if __name__ == '__main__':
 
 
 
-    image_name = args.image + '.emf'
+    image_name = args.image + '.eps'
     logger_name = args.log
     logging.basicConfig(filename='./log/' + logger_name + '.log', level=logging.INFO, format='%(asctime)s:%(message)s')
     # To convert data from PIL to tensor
     # data_dir = '../../../Kaggle_Xray_pneoumonia/'
     # data_dir = '../ChestXray_kaggle/'
-    #data_dir = '../../kaggle_small/'
+    # data_dir = '../../kaggle_small/'
     # data_dir = '../hymenoptera_data' # train model on generic images
 
     data_dir = args.data_set
@@ -308,8 +304,6 @@ if __name__ == '__main__':
             model_ft = ConvNet()
 
 
-
-
     #AlexNet
     # model_ft = AlexNet(num_classes=2)
     # ResNet-18
@@ -318,7 +312,6 @@ if __name__ == '__main__':
     # model_ft = ResNet(Bottleneck, [3, 4, 6, 3], num_classes=2)
     # # DenseNet121
     # model_ft = DenseNet(32, (6, 12, 24, 16), 64, num_classes=2)
-
 
 
     # model_ft.classifier = nn.Linear(1024, 2)
