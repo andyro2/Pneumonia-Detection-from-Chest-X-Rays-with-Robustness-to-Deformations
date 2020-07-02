@@ -6,7 +6,6 @@ import torch.nn as nn
 from torch.autograd import Function
 from torch.autograd.function import once_differentiable
 from torch.nn.modules.utils import _pair
-
 from . import deform_conv_cuda
 
 logger = logging.getLogger('base')
@@ -214,6 +213,8 @@ class DeformConvPack(DeformConv):
 
     def forward(self, x):
         offset = self.conv_offset(x)
+
+
         return deform_conv(x, offset, self.weight, self.stride, self.padding, self.dilation,
                            self.groups, self.deformable_groups)
 

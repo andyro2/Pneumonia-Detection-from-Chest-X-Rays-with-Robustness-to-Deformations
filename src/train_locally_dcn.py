@@ -9,6 +9,7 @@ import  torch.nn            as nn
 import  torch.optim         as optim
 import  numpy               as np
 import  matplotlib.pyplot   as plt
+import cv2
 import argparse
 from matplotlib.animation import FuncAnimation
 
@@ -18,6 +19,7 @@ from resnet_dcn import BasicBlockDCN, BottleneckDCN, ResNetDCN
 from dcn_oeway.torch_deform_conv.cnn import ConvNet, DeformConvNet
 from alexnet import AlexNet
 from alexnet_dcn import AlexNetDCN
+from mmdet_clean.Deformable-ConvNets.lib.utils.show_offset import show_deconv_offset
 # from densenet import DenseNet
 
 from torch.optim import lr_scheduler
@@ -26,6 +28,7 @@ from torch.utils import data
 
 f, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
 current_im = []
+flag=False
 
 def imshow (inp, title=None):
     inp  = inp.numpy().transpose((1,2,0))
@@ -194,6 +197,21 @@ def test_model(model_ft,testset):
     print('Test accuracy = ' + str((correctHits / total) * 100))
     logging.info('Test accuracy = ' + str((correctHits / total) * 100))
 
+def test_image(model,im):
+    transform = transforms.Compose([
+            transforms.Resize((224, 224)),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ])
+    data = transform(im)
+    prediction = model(data)
+    res5a_offset = prediction.offset12.asnumpy()
+    res5b_offset = prediction.offset21.asnumpy()
+    res5c_offset = prediction.offset22.asnumpy()
+
+    im = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
+    show_dconv_offset(im, [res5c_offset, res5b_offset, res5a_offset])
+
 def get_data(data_dir):
 
     data_transforms = {
@@ -334,7 +352,10 @@ if __name__ == '__main__':
 
 
     #run the test function
-    test_model(model_ft,testset)
+    # test_model(model_ft,testset)
+    torch.save(model_ft,'./model_ft.pt')
+
+    test_image(model_ft,im)
 
 
 

@@ -83,9 +83,9 @@ class DeformConvNet(nn.Module):
         x = F.relu(self.conv11(x))
 
         #   PLOT
-        x_np = x.cpu().detach().numpy()
-        plt.imshow(x_np[0, 0, :, :])
-        plt.show()
+        # x_np = x.cpu().detach().numpy()
+        # plt.imshow(x_np[0, 0, :, :])
+        # plt.show()
 
         x = self.bn11(x)
 
