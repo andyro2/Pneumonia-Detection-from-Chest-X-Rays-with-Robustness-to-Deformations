@@ -31,10 +31,10 @@ class ConvNet(nn.Module):
 
     def forward(self, x):
         x = F.relu(self.conv11(x))
-        x_np = x.cpu().detach().numpy()
-        #print(x_np.shape)
-        plt.imshow(x_np[0, 0, :, :])
-        plt.show()
+        # x_np = x.cpu().detach().numpy()
+        # #print(x_np.shape)
+        # plt.imshow(x_np[0, 0, :, :])
+        # plt.show()
 
 
         x = self.bn11(x)

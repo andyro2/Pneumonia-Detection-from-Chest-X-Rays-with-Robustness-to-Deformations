@@ -11,6 +11,7 @@ import  numpy               as np
 import  matplotlib.pyplot   as plt
 import cv2
 import argparse
+from PIL import Image
 from matplotlib.animation import FuncAnimation
 
 from resnet import BasicBlock, Bottleneck, ResNet
@@ -19,7 +20,7 @@ from resnet_dcn import BasicBlockDCN, BottleneckDCN, ResNetDCN
 from dcn_oeway.torch_deform_conv.cnn import ConvNet, DeformConvNet
 from alexnet import AlexNet
 from alexnet_dcn import AlexNetDCN
-from mmdet_clean.Deformable-ConvNets.lib.utils.show_offset import show_deconv_offset
+from mmdet_clean.Deformabl_ConvNets.lib.utils.show_offset import show_dconv_offset
 # from densenet import DenseNet
 
 from torch.optim import lr_scheduler
@@ -203,14 +204,30 @@ def test_image(model,im):
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ])
-    data = transform(im)
-    prediction = model(data)
-    res5a_offset = prediction.offset12.asnumpy()
-    res5b_offset = prediction.offset21.asnumpy()
-    res5c_offset = prediction.offset22.asnumpy()
+    im = cv2.imread(im, cv2.IMREAD_COLOR | cv2.IMREAD_IGNORE_ORIENTATION)
+    for i, (inputs, labels) in enumerate(dataloaders['train']):
 
-    im = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
-    show_dconv_offset(im, [res5c_offset, res5b_offset, res5a_offset])
+        if i==0:
+            data = inputs.to(device)
+            # data = model(inputs)
+
+
+
+    #         data = transform(image).float()
+    # data = torchvision.datasets.ImageFolder(im, transform=transform)
+            prediction = model(data)
+            res5a_offset = model.offset12.weight.cpu().detach().numpy()
+            # print(res5a_offset)
+            res5b_offset = model.offset21.weight.cpu().detach().numpy()
+            res5c_offset = model.offset22.weight.cpu().detach().numpy()
+            # plt.imshow(image)
+            # plt.show()
+            image = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
+            # print(data.type)
+            # print(res5a_offset.type)
+            # plt.imshow(data)
+            # plt.show()
+            show_dconv_offset(image, [res5c_offset, res5b_offset, res5a_offset])
 
 def get_data(data_dir):
 
@@ -278,7 +295,7 @@ if __name__ == '__main__':
 
 
 
-
+    im = './test_image/person7_bacteria_29.jpeg'
     image_name = args.image + '.eps'
     logger_name = args.log
     logging.basicConfig(filename='./log/' + logger_name + '.log', level=logging.INFO, format='%(asctime)s:%(message)s')
